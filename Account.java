@@ -1,17 +1,23 @@
 import java.util.Date;
 
-abstract public class Account {
+abstract public class Account implements Maintainable{
     protected String accountNum;
     protected double balance;
     protected double monthlyFee;
+    protected Date dateOpened;
 
     public Account(String accountNum, double balance, double monthlyFee) {
         this.accountNum = accountNum;
         this.balance = balance;
         this.monthlyFee = monthlyFee;
+        this.dateOpened=new Date();
     }
 
     abstract public void withdraw(double amount);
+
+    public void applyMonthlyFee(){
+
+    }
 
     public void deposit(double amount){
 
@@ -41,6 +47,4 @@ abstract public class Account {
     public void setMonthlyFee(double monthlyFee) {
         this.monthlyFee = monthlyFee;
     } 
-
-    
 }

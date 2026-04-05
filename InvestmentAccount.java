@@ -1,3 +1,21 @@
-public class InvestmentAccount extends Account implements Maintainable,InterestBearing{
-    
+public class InvestmentAccount extends Account implements InterestBearing{
+    private double interestRate=0.05;
+
+    public InvestmentAccount(String accountNum, double balance, double monthlyFee) {
+        super(accountNum, balance, monthlyFee);
+    }
+
+    public void withdraw(double ammount){
+
+    }
+    public void applyInterest(){
+        
+    }
+
+    public double getInterestRate() {
+        return interestRate;
+    }
+    public void setInterestRate(double interestRate) {
+        this.interestRate = interestRate;
+    }
 }
