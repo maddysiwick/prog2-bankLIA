@@ -8,6 +8,7 @@ public class StateManager {
     private ArrayList<Client> clients=new ArrayList<>();
     private ArrayList<Account> accounts=new ArrayList<>();
     private Client activeUser=null;
+    private Account openAccount=null;
     Scanner reader=new Scanner(System.in);
 
     public void run(){
@@ -21,7 +22,11 @@ public class StateManager {
                 case 2:
                     layer=layer2();break;
                 case 3:
-                    System.out.println("this page is under construction");break;
+                    layer=layer3();break;
+                case 4:
+                    layer=layer4();break;
+                case 5:
+                    layer=layer5();break;
                 default:
                     System.out.println("oops smth went wrong :(");
             }
@@ -157,6 +162,122 @@ public class StateManager {
         }
         System.out.println("never should get here smth went wrong");
         return 2;
+    }
+    private int layer3(){
+        boolean running=true;
+        ArrayList<Account> userAccounts=new ArrayList<>();
+        for(String accNum:activeUser.getAccounts()){
+            for(Account account:accounts){
+                if(account.getAccountNum().equals(accNum)){
+                    userAccounts.add(account);
+                    break;
+                }
+            }
+        }
+        while(running){
+            System.out.println("""
+                enter the number for what you would like to open
+        
+                1- open new account
+                """);
+                int count=1;
+                for(Account account:userAccounts){
+                    count++;
+                    System.out.println(count+"- "+account);
+                }
+            System.out.print("> ");
+            int input=reader.nextInt();
+            if(input==1)return 5;
+            else if(input>userAccounts.size()+1)System.out.println("please enter a valid option");
+            else{
+                openAccount=userAccounts.get(input-2);
+                return 4;
+            }
+        }
+        System.out.println("shouldnt get here, smth is probably wrong");
+        return 3;
+    }
+    private int layer4(){
+        boolean running=true;
+        while(running){
+            System.out.println(openAccount);
+            System.out.println("date opened: "+openAccount.getDateOpened());
+            System.out.println("""
+                what would you like to do?
+        
+                1- withdraw
+                2- deposit
+                3- transfer
+                4- back
+                """);
+            System.out.print("> ");
+            switch(reader.nextInt()){
+                case 1:
+                    System.out.println("enter an amount to withdraw");
+                    System.out.print("> ");
+                    try{
+                        openAccount.withdraw(reader.nextDouble());
+                    }
+                    catch(InsufficientFundsException e){
+                        System.out.print(e);
+                    }
+                    break;
+                case 2:
+                    System.out.println("enter an amount to deposit");
+                    System.out.print("> ");
+                    openAccount.deposit(reader.nextDouble());
+                    break;
+                case 3:
+                    System.out.println("dealing with this later");
+                    break;
+                case 4:
+                    return 3;
+                default:
+                    System.out.println("please enter a valid option");
+            }
+        }
+        System.out.println("never should get here smth is wrong");
+        return 4;
+    }
+    private int layer5(){
+        boolean running=true;
+        Random r=new Random();
+        String accountNum=String.valueOf(r.nextInt(999999));
+        Account account=null;
+        while(running){
+            System.out.println("""
+                what type of account would you like to open
+        
+                1- chequing account
+                2- savings account
+                3- investment account
+                4- back
+                """);
+            System.out.print("> ");
+            switch(reader.nextInt()){
+                case 1:
+                    account=new ChequingAccount(accountNum,0.0, 10.0);
+                    running=false;
+                    break;
+                case 2:
+                    account=new SavingsAccount(accountNum,0.0,10.0);
+                    running=false;
+                    break;
+                case 3:
+                    account=new InvestmentAccount(accountNum, 0.0, 10.0);
+                    running=false;
+                    break;
+                case 4:
+                    return 3;
+                default:
+                    System.out.println("please enter a valid option");
+            }
+        }
+        //need to be able to tell when add account fails
+        activeUser.addAccount(account.getAccountNum());
+        accounts.add(account);
+        openAccount=account;
+        return 4;
     }
     private boolean signInAccount(String clientNum,String password){
         for(Client client:clients){

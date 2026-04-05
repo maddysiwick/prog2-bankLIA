@@ -13,14 +13,14 @@ abstract public class Account implements Maintainable{
         this.dateOpened=new Date();
     }
 
-    abstract public void withdraw(double amount);
+    abstract public void withdraw(double amount) throws InsufficientFundsException;
 
     public void applyMonthlyFee(){
 
     }
 
     public void deposit(double amount){
-
+        balance+=amount;
     }
     public void deposit(double amount,String currency){
 
@@ -46,5 +46,11 @@ abstract public class Account implements Maintainable{
     }
     public void setMonthlyFee(double monthlyFee) {
         this.monthlyFee = monthlyFee;
+    }
+    public Date getDateOpened() {
+        return dateOpened;
+    }
+    public void setDateOpened(Date dateOpened) {
+        this.dateOpened = dateOpened;
     } 
 }

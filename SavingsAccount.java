@@ -5,8 +5,11 @@ public class SavingsAccount extends Account implements InterestBearing{
         super(accountNum, balance, monthlyFee);
     }
 
-    public void withdraw(double ammount){
-
+    public void withdraw(double amount)throws InsufficientFundsException{
+        if(amount<=balance){
+            balance-=amount;
+        }
+        else throw new InsufficientFundsException("cannot withdraw $"+amount+"with balance $"+balance);
     }
     public void applyInterest(){
 
@@ -17,5 +20,8 @@ public class SavingsAccount extends Account implements InterestBearing{
     }
     public void setInterestRate(double interestRate) {
         this.interestRate = interestRate;
+    }
+    public String toString(){
+        return "savings account #"+accountNum+"   balance: $"+balance;
     }
 }

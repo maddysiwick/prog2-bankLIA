@@ -13,7 +13,7 @@ abstract public class Client{
     }
 
     public void addAccount(String accountNum){
-        
+        accounts.add(accountNum);
     }
 
     public String getClientNum() {

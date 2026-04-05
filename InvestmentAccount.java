@@ -5,11 +5,11 @@ public class InvestmentAccount extends Account implements InterestBearing{
         super(accountNum, balance, monthlyFee);
     }
 
-    public void withdraw(double ammount){
-
+    public void withdraw(double amount)throws InsufficientFundsException{
+        System.out.println("cannot withdraw from an investment acount");
     }
     public void applyInterest(){
-        
+
     }
 
     public double getInterestRate() {
@@ -17,5 +17,8 @@ public class InvestmentAccount extends Account implements InterestBearing{
     }
     public void setInterestRate(double interestRate) {
         this.interestRate = interestRate;
+    }
+    public String toString(){
+        return "investment account #"+accountNum+"   balance: $"+balance;
     }
 }
