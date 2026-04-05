@@ -19,7 +19,9 @@ public class StateManager {
                 case 1:
                     layer=layer1();break;
                 case 2:
-                    System.out.println("this page is under construction,come back later "+activeUser.getName());break;
+                    layer=layer2();break;
+                case 3:
+                    System.out.println("this page is under construction");break;
                 default:
                     System.out.println("oops smth went wrong :(");
             }
@@ -117,6 +119,44 @@ public class StateManager {
         }
         System.out.println("probably never should have got here smth is up");
         return 1;
+    }
+    private int layer2(){
+        boolean running=true;
+        while(running){
+            System.out.println("""
+                what would you like to do?
+        
+                1- see personal details
+                2- see accounts
+                3- sign out
+                4- quit
+                """);
+            System.out.print("> ");
+            switch(reader.nextInt()){
+                case 1:
+                    System.out.printf("""
+                            client number: #%s
+                            name: %s
+                            more to come but im lazy
+                            """,activeUser.getClientNum(),activeUser.getName());
+                    System.out.println("enter anyting to quit");
+                    System.out.print("> ");
+                    reader.next();
+                    return 2;
+                case 2:
+                    return 3;
+                case 3:
+                    System.out.println("goodbye "+activeUser.getName());
+                    activeUser=null;
+                    return 1;
+                case 4:
+                    return 0;
+                default:
+                    System.out.println("please enter a valid option");
+            }
+        }
+        System.out.println("never should get here smth went wrong");
+        return 2;
     }
     private boolean signInAccount(String clientNum,String password){
         for(Client client:clients){
