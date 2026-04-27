@@ -3,19 +3,42 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.Random;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 public class StateManager {
     private int layer=1;
-    private ArrayList<Client> clients=new ArrayList<>();
-    private ArrayList<Account> accounts=new ArrayList<>();
+    private HashMap<String,ArrayList<Client>> clients=new HashMap<>();
+    private HashMap<String,ArrayList<Account>> accounts=new HashMap<>();
     private Client activeUser=null;
     private Account openAccount=null;
+    private Gson gson=new Gson();
     Scanner reader=new Scanner(System.in);
+
+    public StateManager(){
+        clients.put("students",new ArrayList<>());
+        clients.put("individuals",new ArrayList<>());
+        clients.put("corporates",new ArrayList<>());
+        clients.put("vips",new ArrayList<>());
+        accounts.put("chequings",new ArrayList<>());
+        accounts.put("savings",new ArrayList<>());
+        accounts.put("investments",new ArrayList<>());
+        loadData();
+    }
 
     public void run(){
         boolean running=true;
         while(running){
             switch(layer){
                 case 0:
+                    saveData();
                     running=false;break;
                 case 1:
                     layer=layer1();break;
@@ -87,6 +110,7 @@ public class StateManager {
                         switch(reader.nextInt()){
                             case 1:
                                 activeUser=new IndividualClient(clientNum,name,password,new ArrayList<>());
+                                clients.get("individuals").add(activeUser);
                                 deciding=false;
                                 break;
                             case 2:
@@ -97,6 +121,7 @@ public class StateManager {
                                 System.out.print("> ");
                                 int gradMonth=reader.nextInt();
                                 activeUser=new StudentClient(clientNum,name,password,new ArrayList<>(),new GregorianCalendar(gradYear,gradMonth-1,29).getTime());
+                                clients.get("students").add(activeUser);
                                 deciding=false;
                                 break;
                             case 3:
@@ -105,10 +130,12 @@ public class StateManager {
                                 reader.nextLine();
                                 String comapanyName=reader.nextLine();
                                 activeUser=new CorporateClient(clientNum,name,password,new ArrayList<>(),comapanyName);
+                                clients.get("corporates").add(activeUser);
                                 deciding=false;
                                 break;
                             case 4:
                                 activeUser=new VIPCLient(clientNum,name,password,new ArrayList<>());
+                                clients.get("vips").add(activeUser);
                                 deciding=false;
                                 break;
                             default:
@@ -167,11 +194,13 @@ public class StateManager {
         boolean running=true;
         ArrayList<Account> userAccounts=new ArrayList<>();
         for(String accNum:activeUser.getAccounts()){
-            for(Account account:accounts){
-                if(account.getAccountNum().equals(accNum)){
-                    userAccounts.add(account);
-                    break;
-                }
+            for(String accountType:accounts.keySet()){
+                for(Account account:accounts.get(accountType)){
+                    if(account.getAccountNum().equals(accNum)){
+                        userAccounts.add(account);
+                        break;
+                    }
+            }
             }
         }
         while(running){
@@ -185,10 +214,12 @@ public class StateManager {
                     count++;
                     System.out.println(count+"- "+account);
                 }
+                System.out.println((count+1)+"- back");
             System.out.print("> ");
             int input=reader.nextInt();
             if(input==1)return 5;
-            else if(input>userAccounts.size()+1)System.out.println("please enter a valid option");
+            else if(input==userAccounts.size()+2) return 2;
+            else if(input>userAccounts.size()+2)System.out.println("please enter a valid option");
             else{
                 openAccount=userAccounts.get(input-2);
                 return 4;
@@ -257,14 +288,17 @@ public class StateManager {
             switch(reader.nextInt()){
                 case 1:
                     account=new ChequingAccount(accountNum,0.0, 10.0);
+                    accounts.get("chequings").add(account);
                     running=false;
                     break;
                 case 2:
                     account=new SavingsAccount(accountNum,0.0,10.0);
+                    accounts.get("savings").add(account);
                     running=false;
                     break;
                 case 3:
                     account=new InvestmentAccount(accountNum, 0.0, 10.0);
+                    accounts.get("investments").add(account);
                     running=false;
                     break;
                 case 4:
@@ -275,18 +309,166 @@ public class StateManager {
         }
         //need to be able to tell when add account fails
         activeUser.addAccount(account.getAccountNum());
-        accounts.add(account);
         openAccount=account;
         return 4;
     }
     private boolean signInAccount(String clientNum,String password){
-        for(Client client:clients){
-            if(client.getClientNum().equals(clientNum)&&client.getPassword().equals(password)){
-                activeUser=client;
-                return true;
+        for(String clientType:clients.keySet()){
+            for(Client client:clients.get(clientType)){
+                System.out.println(client.getName());
+                if(client.getClientNum().equals(clientNum)&&client.getPassword().equals(password)){
+                    activeUser=client;
+                    return true;
             }
         }
+        }
         return false;
+    }
+    private void loadData(){
+        //TODO OH MY GOD REFACTOR THIS IS FUCKING DISGUSTING
+        try{
+            File studentFile=new File("jsonFiles/studentClients.json");
+            FileReader studentReader=new FileReader(studentFile);
+            Type studentType=new TypeToken<ArrayList<StudentClient>>() {}.getType();
+            ArrayList<StudentClient> studentClients=gson.fromJson(studentReader,studentType);
+            studentReader.close();
+            for(StudentClient student:studentClients){
+                clients.get("students").add(student);
+            }
+        }catch(Exception e){
+            System.out.println("can't read student clients: "+e);
+        }
+        try{
+            File individualFile=new File("jsonFiles/individualClients.json");
+            FileReader individualReader=new FileReader(individualFile);
+            Type individualType=new TypeToken<ArrayList<IndividualClient>>() {}.getType();
+            ArrayList<IndividualClient> individualClients=gson.fromJson(individualReader,individualType);
+            individualReader.close();
+            for(IndividualClient individual:individualClients){
+                clients.get("individuals").add(individual);
+            }
+        }catch(Exception e){
+            System.out.println("can't read individual clients: "+e);
+        }
+        try{
+            File corporateFile=new File("jsonFiles/corporateClients.json");
+            FileReader corporateReader=new FileReader(corporateFile);
+            Type corporateType=new TypeToken<ArrayList<CorporateClient>>() {}.getType();
+            ArrayList<CorporateClient> corporateClients=gson.fromJson(corporateReader,corporateType);
+            corporateReader.close();
+            for(CorporateClient corporate:corporateClients){
+                clients.get("corporates").add(corporate);
+            }
+        }catch(Exception e){
+            System.out.println("can't read corporate clients: "+e);
+        }
+        try{
+            File vipFile=new File("jsonFiles/vipClients.json");
+            FileReader vipReader=new FileReader(vipFile);
+            Type vipType=new TypeToken<ArrayList<VIPCLient>>() {}.getType();
+            ArrayList<VIPCLient> vipClients=gson.fromJson(vipReader,vipType);
+            vipReader.close();
+            for(VIPCLient vip:vipClients){
+                clients.get("vips").add(vip);
+            }
+        }catch(Exception e){
+            System.out.println("can't read vip clients: "+e);
+        }
+        try{
+            File chequingFile=new File("jsonFiles/chequingAccounts.json");
+            FileReader chequingReader=new FileReader(chequingFile);
+            Type chequingType=new TypeToken<ArrayList<ChequingAccount>>() {}.getType();
+            ArrayList<ChequingAccount> chequingAccounts=gson.fromJson(chequingReader,chequingType);
+            chequingReader.close();
+            for(ChequingAccount chequing:chequingAccounts){
+                accounts.get("chequings").add(chequing);
+            }
+        }catch(Exception e){
+            System.out.println("can't read chequing accounts: "+e);
+        }
+        try{
+            File investmentFile=new File("jsonFiles/investmentAccounts.json");
+            FileReader investmentReader=new FileReader(investmentFile);
+            Type investmentType=new TypeToken<ArrayList<InvestmentAccount>>() {}.getType();
+            ArrayList<InvestmentAccount> investmentAccounts=gson.fromJson(investmentReader,investmentType);
+            investmentReader.close();
+            for(InvestmentAccount investment:investmentAccounts){
+                accounts.get("investments").add(investment);
+            }
+        }catch(Exception e){
+            System.out.println("can't read investment accounts: "+e);
+        }
+        try{
+            File savingsFile=new File("jsonFiles/savingsAccounts.json");
+            FileReader savingsReader=new FileReader(savingsFile);
+            Type savingsType=new TypeToken<ArrayList<SavingsAccount>>() {}.getType();
+            ArrayList<SavingsAccount> savingsAccounts=gson.fromJson(savingsReader,savingsType);
+            savingsReader.close();
+            for(SavingsAccount savings:savingsAccounts){
+                accounts.get("savings").add(savings);
+            }
+        }catch(Exception e){
+            System.out.println("can't read savings accounts: "+e);
+        }
+    }
+    private void saveData(){
+        //TODO FIX THIS ITS EVEN LESS DEFENSIBLE USE A LOOP OMFG
+        try{
+            File studentFile=new File("jsonFiles/studentClients.json");
+            FileWriter studentWriter=new FileWriter(studentFile);
+            gson.toJson(clients.get("students"),studentWriter);
+            studentWriter.close();
+        }catch(Exception e){
+            System.out.println("can't write student clients: "+e);
+        }
+        try{
+            File individualFile=new File("jsonFiles/individualClients.json");
+            FileWriter individualWriter=new FileWriter(individualFile);
+            gson.toJson(clients.get("individuals"),individualWriter);
+            individualWriter.close();
+        }catch(Exception e){
+            System.out.println("can't write individual clients: "+e);
+        }
+        try{
+            File corporateFile=new File("jsonFiles/corporateClients.json");
+            FileWriter corporateWriter=new FileWriter(corporateFile);
+            gson.toJson(clients.get("corporates"),corporateWriter);
+            corporateWriter.close();
+        }catch(Exception e){
+            System.out.println("can't write corporate clients: "+e);
+        }
+        try{
+            File vipFile=new File("jsonFiles/vipClients.json");
+            FileWriter vipWriter=new FileWriter(vipFile);
+            gson.toJson(clients.get("vips"),vipWriter);
+            vipWriter.close();
+        }catch(Exception e){
+            System.out.println("can't write vip clients: "+e);
+        }
+        try{
+            File chequingFile=new File("jsonFiles/chequingAccounts.json");
+            FileWriter chequingWriter=new FileWriter(chequingFile);
+            gson.toJson(accounts.get("chequings"),chequingWriter);
+            chequingWriter.close();
+        }catch(Exception e){
+            System.out.println("can't write chequing accounts: "+e);
+        }
+        try{
+            File investmentFile=new File("jsonFiles/investmentAccounts.json");
+            FileWriter investmentWriter=new FileWriter(investmentFile);
+            gson.toJson(accounts.get("investments"),investmentWriter);
+            investmentWriter.close();
+        }catch(Exception e){
+            System.out.println("can't write investment accounts: "+e);
+        }
+        try{
+            File savingsFile=new File("jsonFiles/savingsAccounts.json");
+            FileWriter savingsWriter=new FileWriter(savingsFile);
+            gson.toJson(accounts.get("savings"),savingsWriter);
+            savingsWriter.close();
+        }catch(Exception e){
+            System.out.println("can't write savings accounts: "+e);
+        }
     }
 
     public int getLayer() {
@@ -295,7 +477,8 @@ public class StateManager {
     public void setLayer(int layer) {
         this.layer = layer;
     }
-    public ArrayList<Client> getClients() {
+    //TODO fix these
+    /*public ArrayList<Client> getClients() {
         return clients;
     }
     public void setClients(ArrayList<Client> clients) {
@@ -306,5 +489,5 @@ public class StateManager {
     }
     public void setAccounts(ArrayList<Account> accounts) {
         this.accounts = accounts;
-    }
+    }*/
 }

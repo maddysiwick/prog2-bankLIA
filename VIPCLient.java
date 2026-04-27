@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+//fix the capital L
 public class VIPCLient extends PremiumClient{
     private double monthlyFee=0.0;
     private double extraInterest=0.01;

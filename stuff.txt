@@ -1,0 +1,3 @@
+commands to compile+run:
+javac -cp prog2-bankLIA.jar Account.java ChequingAccount.java Client.java CorporateClient.java IndividualClient.java InsufficientFundsException.java InterestBearing.java InvestmentAccount.java Maintainable.java MissingChequingAccountException.java PremiumClient.java SavingsAccount.java StandardClient.java StateManager.java StudentClient.java Transaction.java VIPClient.java TempDriver.java
+java -cp prog2-bankLIA.jar TempDriver.java
