@@ -17,6 +17,7 @@ public class StateManager {
     private int layer=1;
     private HashMap<String,ArrayList<Client>> clients=new HashMap<>();
     private HashMap<String,ArrayList<Account>> accounts=new HashMap<>();
+    private ArrayList<Account> userAccounts;
     private Client activeUser=null;
     private Account openAccount=null;
     private Gson gson=new Gson();
@@ -192,7 +193,7 @@ public class StateManager {
     }
     private int layer3(){
         boolean running=true;
-        ArrayList<Account> userAccounts=new ArrayList<>();
+        userAccounts=new ArrayList<>();
         for(String accNum:activeUser.getAccounts()){
             for(String accountType:accounts.keySet()){
                 for(Account account:accounts.get(accountType)){
@@ -275,6 +276,12 @@ public class StateManager {
         Random r=new Random();
         String accountNum=String.valueOf(r.nextInt(999999));
         Account account=null;
+        boolean hasChequing=false;
+        for(Account userAccount:userAccounts){
+            if(userAccount instanceof ChequingAccount){
+                hasChequing=true;
+            }
+        }
         while(running){
             System.out.println("""
                 what type of account would you like to open
@@ -292,14 +299,20 @@ public class StateManager {
                     running=false;
                     break;
                 case 2:
-                    account=new SavingsAccount(accountNum,0.0,10.0);
-                    accounts.get("savings").add(account);
-                    running=false;
+                    if(hasChequing){
+                        account=new SavingsAccount(accountNum,0.0,10.0);
+                        accounts.get("savings").add(account);
+                        running=false;
+                    }
+                    else System.out.println("sorry, you must make a chequing account before opening another type");
                     break;
                 case 3:
-                    account=new InvestmentAccount(accountNum, 0.0, 10.0);
-                    accounts.get("investments").add(account);
-                    running=false;
+                    if(hasChequing){
+                        account=new InvestmentAccount(accountNum, 0.0, 10.0);
+                        accounts.get("investments").add(account);
+                        running=false;
+                    }
+                    else System.out.println("sorry, you must make a chequing account before opening another type");
                     break;
                 case 4:
                     return 3;
