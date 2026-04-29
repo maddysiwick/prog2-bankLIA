@@ -231,6 +231,7 @@ public class StateManager {
         return 3;
     }
     private int layer4(){
+        Random r=new Random();
         boolean running=true;
         while(running){
             System.out.println(openAccount);
@@ -244,12 +245,15 @@ public class StateManager {
                 4- back
                 """);
             System.out.print("> ");
+            double prevBalance=openAccount.getBalance();
             switch(reader.nextInt()){
                 case 1:
                     System.out.println("enter an amount to withdraw");
                     System.out.print("> ");
                     try{
                         openAccount.withdraw(reader.nextDouble());
+                        String transactionID=openAccount.getAccountNum()+r.nextInt(999999);
+                        transactions.add(new Transaction(transactionID,"withdrawl", activeUser.getClientNum(),openAccount.getAccountNum(),null,prevBalance,openAccount.getBalance()));
                     }
                     catch(InsufficientFundsException e){
                         System.out.print(e);
@@ -259,6 +263,8 @@ public class StateManager {
                     System.out.println("enter an amount to deposit");
                     System.out.print("> ");
                     openAccount.deposit(reader.nextDouble());
+                    String depositID=openAccount.getAccountNum()+r.nextInt(999999);
+                    transactions.add(new Transaction(depositID,"deposit", activeUser.getClientNum(),openAccount.getAccountNum(),null,prevBalance,openAccount.getBalance()));
                     break;
                 case 3:
                     System.out.println("enter the account number you would like to transfer to");
@@ -279,6 +285,8 @@ public class StateManager {
                         System.out.print("> ");
                         try{
                             openAccount.transfer(layer, transferAccount);
+                            String transactionID=openAccount.getAccountNum()+r.nextInt(999999);
+                            transactions.add(new Transaction(transactionID,"transfer", activeUser.getClientNum(),openAccount.getAccountNum(),accountNum,prevBalance,openAccount.getBalance()));
                         }catch(InvestmentLockException e){
                             System.out.println(e);
                         }catch(InsufficientFundsException e){

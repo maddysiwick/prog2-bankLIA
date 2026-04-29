@@ -1,6 +1,7 @@
 //i should maybe just be using system milis or wtv
 import java.util.Date;
 public class Transaction {
+    private String transactionID;
     private String type;
     private String clientNum;
     private String mainAccountNum;
@@ -9,8 +10,9 @@ public class Transaction {
     private double balanceAfter;
     private Date TransactionDate;
 
-    public Transaction(String type, String clientNum, String mainAccountNum, String secondaryAccountNum, double balanceBefore,
+    public Transaction(String transactionID,String type, String clientNum, String mainAccountNum, String secondaryAccountNum, double balanceBefore,
             double balanceAfter) {
+        this.transactionID=transactionID;
         this.type = type;
         this.clientNum=clientNum;
         this.mainAccountNum = mainAccountNum;
