@@ -25,8 +25,12 @@ abstract public class Account implements Maintainable{
     public void deposit(double amount,String currency){
 
     }
-    public void transfer(double amount,String accoountNumber){
-        
+    public void transfer (double amount,Account account)throws InvestmentLockException,InsufficientFundsException{
+        if(balance>=amount){
+            balance-=amount;
+            account.deposit(amount);
+        }
+        else throw new InsufficientFundsException(accountNum);
     }
 
     public String getAccountNum() {

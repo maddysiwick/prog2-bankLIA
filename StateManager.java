@@ -17,6 +17,7 @@ public class StateManager {
     private int layer=1;
     private HashMap<String,ArrayList<Client>> clients=new HashMap<>();
     private HashMap<String,ArrayList<Account>> accounts=new HashMap<>();
+    private ArrayList<Transaction> transactions=new ArrayList<>();
     private ArrayList<Account> userAccounts;
     private Client activeUser=null;
     private Account openAccount=null;
@@ -260,7 +261,30 @@ public class StateManager {
                     openAccount.deposit(reader.nextDouble());
                     break;
                 case 3:
-                    System.out.println("dealing with this later");
+                    System.out.println("enter the account number you would like to transfer to");
+                    System.out.print("> ");
+                    String accountNum=reader.next();
+                    boolean accountExists=false;
+                    Account transferAccount=null;
+                    for(String accountType:accounts.keySet()){
+                        for(Account account:accounts.get(accountType)){
+                            if(account.getAccountNum().equals(accountNum)){
+                                accountExists=true;
+                                transferAccount=account;
+                            }
+                        }
+                    }
+                    if(accountExists){
+                        System.out.println("enter an amount to transfer");
+                        System.out.print("> ");
+                        try{
+                            openAccount.transfer(layer, transferAccount);
+                        }catch(InvestmentLockException e){
+                            System.out.println(e);
+                        }catch(InsufficientFundsException e){
+                            System.out.println(e);
+                        }
+                    }
                     break;
                 case 4:
                     return 3;
@@ -423,6 +447,16 @@ public class StateManager {
         }catch(Exception e){
             System.out.println("can't read savings accounts: "+e);
         }
+        //exclude from refactoring when i do it
+        try{
+            File transactionsFile=new File("jsonFiles/transactionHistory.json");
+            FileReader transactionsReader=new FileReader(transactionsFile);
+            Type transactionsType=new TypeToken<ArrayList<Transaction>>() {}.getType();
+            transactions=gson.fromJson(transactionsReader,transactionsType);
+            transactionsReader.close();
+        }catch(IOException e){
+            System.out.println("can't read trasnsaction history: "+e);
+        }
     }
     private void saveData(){
         //TODO FIX THIS ITS EVEN LESS DEFENSIBLE USE A LOOP OMFG
@@ -481,6 +515,14 @@ public class StateManager {
             savingsWriter.close();
         }catch(Exception e){
             System.out.println("can't write savings accounts: "+e);
+        }
+        try{
+            File transactionFile=new File("jsonFiles/transactionHistory.json");
+            FileWriter transactionWriter=new FileWriter(transactionFile);
+            gson.toJson(transactions,transactionWriter);
+            transactionWriter.close();
+        }catch(IOException e){
+            System.out.println(e);
         }
     }
 
