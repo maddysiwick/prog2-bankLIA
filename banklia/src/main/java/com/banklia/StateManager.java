@@ -152,11 +152,7 @@ public class StateManager {
             System.out.print("> ");
             switch(reader.nextInt()){
                 case 1:
-                    System.out.printf("""
-                            client number: #%s
-                            name: %s
-                            more to come but im lazy
-                            """,activeUser.getClientNum(),activeUser.getName());
+                    System.out.printf("client number: #%s\nname: %s\nmore to come but im lazy",activeUser.getClientNum(),activeUser.getName());
                     System.out.println("enter anyting to quit");
                     System.out.print("> ");
                     reader.next();
@@ -190,11 +186,7 @@ public class StateManager {
             }
         }
         while(running){
-            System.out.println("""
-                enter the number for what you would like to open
-        
-                1- open new account
-                """);
+            System.out.println("enter the number for what you would like to open\n1- open new account");
                 int count=1;
                 for(Account account:userAccounts){
                     count++;
@@ -220,14 +212,7 @@ public class StateManager {
         while(running){
             System.out.println(openAccount);
             System.out.println("date opened: "+openAccount.getDateOpened());
-            System.out.println("""
-                what would you like to do?
-        
-                1- withdraw
-                2- deposit
-                3- transfer
-                4- back
-                """);
+            System.out.println("what would you like to do?\n1- withdraw\n2- deposit\n3- transfer\n4- back");
             System.out.print("> ");
             double prevBalance=openAccount.getBalance();
             switch(reader.nextInt()){
@@ -299,14 +284,7 @@ public class StateManager {
             }
         }
         while(running){
-            System.out.println("""
-                what type of account would you like to open
-        
-                1- chequing account
-                2- savings account
-                3- investment account
-                4- back
-                """);
+            System.out.println("what type of account would you like to open\n1- chequing account\n2- savings account\n3- investment account\n4- back");
             System.out.print("> ");
             switch(reader.nextInt()){
                 case 1:
