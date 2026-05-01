@@ -23,7 +23,10 @@ public class WelcomePageController {
     }
     @FXML
     private void switchToCreateAccount() throws IOException {
-        App.setRoot("secondary");
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("createAccount.fxml"));
+        stage.setScene(new Scene(loader.load()));
+        ((CreateAccountController)loader.getController()).setData(clients,accounts,transactions,stage);
+        stage.show();
     }
     @FXML
     private void quit() throws IOException {

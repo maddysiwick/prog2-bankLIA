@@ -161,9 +161,30 @@ public class App extends Application {
             System.out.println(e);
         }
     }
+    private static void updateAccounts(int monthsToCatchUp){
+        if(monthsToCatchUp!=0){
+            for(Account account:accounts.get("chequings")){
+                ChequingAccount chequing=(ChequingAccount)account;
+                chequing.applyMonthlyFee();
+            }
+            for(Account account:accounts.get("savings")){
+                SavingsAccount savings=(SavingsAccount)account;
+                savings.applyMonthlyFee();
+                savings.applyInterest();
+            }
+            for(Account account:accounts.get("investments")){
+                InvestmentAccount savings=(InvestmentAccount)account;
+                savings.applyMonthlyFee();
+                savings.applyInterest();
+            }
+        }
+    }
 
     public static void main(String[] args) {
         loadData();
+        int monthsSinceUpdate=(int)(sessionInfo.getLastUpdate().getTime()-new Date().getTime()/2629746000L);
+        updateAccounts(monthsSinceUpdate);
+        sessionInfo.setLastUpdate(new Date());
         launch();
     }
 

@@ -29,7 +29,7 @@ public class SignInController {
                 if(client.getClientNum().equals(clientNum)&&client.getPassword().equals(password)){
                     FXMLLoader loader=new FXMLLoader(getClass().getResource("mainClientPage.fxml"));
                     stage.setScene(new Scene(loader.load()));
-                    ((MainClientPageController)loader.getController()).setData(client,accounts,transactions,stage);
+                    ((MainClientPageController)loader.getController()).setData(client,clients,accounts,transactions,stage);
                     stage.show();
                     System.out.println("signed in as "+client.getName());
                     signedIn=true;
