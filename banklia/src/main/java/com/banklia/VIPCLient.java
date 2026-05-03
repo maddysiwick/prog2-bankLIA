@@ -11,6 +11,8 @@ public class VIPCLient extends PremiumClient{
 
     public void addAccount(Account account){
         account.setMonthlyFee(monthlyFee);
+        if(account instanceof InvestmentAccount)((InvestmentAccount)account).setInterestRate(((InvestmentAccount)account).getInterestRate()+extraInterest);
+        if(account instanceof SavingsAccount)((SavingsAccount)account).setInterestRate(((SavingsAccount)account).getInterestRate()+extraInterest);
         accounts.add(account.getAccountNum());
     }
 
