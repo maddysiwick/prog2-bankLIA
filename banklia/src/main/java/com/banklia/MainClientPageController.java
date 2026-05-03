@@ -190,6 +190,7 @@ public class MainClientPageController {
         try{
             FXMLLoader loader=new FXMLLoader(getClass().getResource("welcome.fxml"));
             stage.setScene(new Scene(loader.load()));
+            ((WelcomePageController)loader.getController()).setData(clients,accounts,transactions,stage);
             stage.show();
         }catch(IOException e){
             System.out.println(e);
