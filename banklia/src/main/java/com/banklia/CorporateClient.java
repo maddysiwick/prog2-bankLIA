@@ -1,7 +1,7 @@
 package com.banklia;
 import java.util.ArrayList;
 /**
- * child of the Client class, representing a corporate client of a bank
+ * child of the PremiumClient class, representing a corporate client of a bank
  */
 
 public class CorporateClient extends PremiumClient{

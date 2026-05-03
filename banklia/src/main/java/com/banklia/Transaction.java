@@ -2,13 +2,37 @@ package com.banklia;
 //i should maybe just be using system milis or wtv
 import java.util.Date;
 public class Transaction {
+    /**
+     * randomly generated ID identifying a transaction
+     */
     private String transactionID;
+    /**
+     * the type of transaction
+     */
     private String type;
+    /**
+     * the ID of the client involved
+     */
     private String clientNum;
+    /**
+     * the ID of the main account involved
+     */
     private String mainAccountNum;
+    /**
+     * the ID of the second account involved in the case of a transfer
+     */
     private String secondaryAccountNum;
+    /**
+     * the account balance before the transaction
+     */
     private double balanceBefore;
+    /**
+     * the account balance after the transaction
+     */
     private double balanceAfter;
+    /**
+     * the date of the transaction
+     */
     private Date TransactionDate;
 
     public Transaction(String transactionID,String type, String clientNum, String mainAccountNum, String secondaryAccountNum, double balanceBefore,

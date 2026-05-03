@@ -1,7 +1,7 @@
 package com.banklia;
 import java.util.ArrayList;
 /**
- * child of Client, represents a basic client at a bank
+ * child of StandardClient, represents a basic client at a bank
  */
 public class IndividualClient extends StandardClient{
 
