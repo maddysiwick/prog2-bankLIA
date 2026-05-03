@@ -9,8 +9,9 @@ public class VIPCLient extends PremiumClient{
         super(clientNum, name, password, accounts);
     }
 
-    public void addAccount(String accountNum){
-        
+    public void addAccount(Account account){
+        account.setMonthlyFee(monthlyFee);
+        accounts.add(account.getAccountNum());
     }
 
     public double getMonthlyFee() {

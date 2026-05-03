@@ -12,7 +12,7 @@ public class InvestmentAccount extends Account implements InterestBearing{
         System.out.println("cannot withdraw from an investment acount");
     }
     public void applyInterest(){
-
+        balance+=balance*interestRate;
     }
     public void transfer(double amount,Account account) throws InvestmentLockException,InsufficientFundsException{
         if(balance>=amount){

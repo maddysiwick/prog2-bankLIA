@@ -13,6 +13,10 @@ public class StudentClient extends StandardClient{
     public Date getStatusExpiryDate() {
         return statusExpiryDate;
     }
+    public void addAccount(Account account){
+        account.setMonthlyFee(monthlyFee);
+        accounts.add(account.getAccountNum());
+    }
 
     public void setStatusExpiryDate(Date statusExpiryDate) {
         this.statusExpiryDate = statusExpiryDate;

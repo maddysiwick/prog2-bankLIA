@@ -1,9 +1,24 @@
 package com.banklia;
 import java.util.ArrayList;
+/**
+ * abstract class representing a generic client at a bank
+ */
 abstract public class Client{
+    /**
+     * randomly generated number to identify a specific client
+     */
     protected String clientNum;
+    /**
+     * name of the client
+     */
     protected String name;
+    /**
+     * client's password
+     */
     protected String password;
+    /**
+     * account numbers associated with this client
+     */
     protected ArrayList<String> accounts;
 
     public Client(String clientNum, String name, String password, ArrayList<String> accounts) {
@@ -12,9 +27,12 @@ abstract public class Client{
         this.password = password;
         this.accounts = accounts;
     }
-
-    public void addAccount(String accountNum){
-        accounts.add(accountNum);
+    /**
+     * add an account under the client
+     * @param accountNum
+     */
+    public void addAccount(Account account){
+        accounts.add(account.getAccountNum());
     }
 
     public String getClientNum() {

@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -162,29 +163,38 @@ public class App extends Application {
         }
     }
     private static void updateAccounts(int monthsToCatchUp){
-        if(monthsToCatchUp!=0){
-            for(Account account:accounts.get("chequings")){
-                ChequingAccount chequing=(ChequingAccount)account;
-                chequing.applyMonthlyFee();
+        if(monthsToCatchUp>0){
+            sessionInfo=new LoadInfo(new Date(), null);
+        }
+        for (int i = 0; i < monthsToCatchUp; i++) {
+            for (Account account : accounts.get("chequings")) {
+                ((ChequingAccount) account).applyMonthlyFee();
             }
-            for(Account account:accounts.get("savings")){
-                SavingsAccount savings=(SavingsAccount)account;
+            for (Account account : accounts.get("savings")) {
+                SavingsAccount savings = (SavingsAccount) account;
                 savings.applyMonthlyFee();
                 savings.applyInterest();
             }
-            for(Account account:accounts.get("investments")){
-                InvestmentAccount savings=(InvestmentAccount)account;
-                savings.applyMonthlyFee();
-                savings.applyInterest();
+            for (Account account : accounts.get("investments")) {
+                InvestmentAccount inv = (InvestmentAccount) account;
+                inv.applyMonthlyFee();
+                inv.applyInterest();
             }
         }
     }
 
     public static void main(String[] args) {
         loadData();
-        int monthsSinceUpdate=(int)(sessionInfo.getLastUpdate().getTime()-new Date().getTime()/2629746000L);
+        int monthsSinceUpdate=(int)((new Date().getTime()-sessionInfo.getLastUpdate().getTime())/2629746000L);
         updateAccounts(monthsSinceUpdate);
-        sessionInfo.setLastUpdate(new Date());
+        try{
+            File infoFile=new File("src\\main\\resources\\com\\banklia\\jsonFiles\\openData.json");
+            FileWriter infoWriter=new FileWriter(infoFile);
+            gson.toJson(sessionInfo,infoWriter);
+            infoWriter.close();
+            }catch(IOException e){
+                System.out.println(e);
+            }
         launch();
     }
 

@@ -2,6 +2,7 @@ package com.banklia;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -28,6 +29,10 @@ public class CreateAccountController {
     private TextField passwordField;
     @FXML
     private ComboBox<String> clientType;
+    @FXML
+    private ComboBox<Integer> yearBox;
+    @FXML
+    private ComboBox<Integer> monthBox;
     @FXML
     public void determineNext(){
         Random r=new Random();
@@ -68,26 +73,43 @@ public class CreateAccountController {
     private void choseStudentClient() throws IOException{
         FXMLLoader loader=new FXMLLoader(getClass().getResource("createStudentAccount.fxml"));
         stage.setScene(new Scene(loader.load()));
-        ((CreateAccountController)loader.getController()).setData(clients,accounts,transactions,stage);
+        ((CreateAccountController)loader.getController()).setData(name,password,clients,accounts,transactions,stage);
         stage.show();
     }
     private void choseCorporateClient()throws IOException{
         FXMLLoader loader=new FXMLLoader(getClass().getResource("createCorporateAccount.fxml"));
         stage.setScene(new Scene(loader.load()));
-        ((CreateAccountController)loader.getController()).setData(clients,accounts,transactions,stage);
+        ((CreateAccountController)loader.getController()).setData(name,password,clients,accounts,transactions,stage);
         stage.show();
     }
     @FXML
     public void finishStudentAccount()throws IOException{
-
+        Random r=new Random();
+        clientNum=String.valueOf(r.nextInt(999999));
+        int year=yearBox.getValue();
+        int month=monthBox.getValue();
+        StudentClient student=new StudentClient(clientNum,name,password,new ArrayList<>(),new GregorianCalendar(year,month-1,29).getTime());
+        clients.get("students").add(student);
+        signIn(student);
     }
     @FXML
     public void finishCorporateAccount() throws IOException{
+        Random r=new Random();
+        clientNum=String.valueOf(r.nextInt(999999));
         String corpName=corporationField.getText();
         CorporateClient corporate=new CorporateClient(clientNum,name,password, new ArrayList<>(),corpName);
+        clients.get("corporates").add(corporate);
         signIn(corporate);
     }
     public void setData(HashMap<String,ArrayList<Client>> clients,HashMap<String,ArrayList<Account>> accounts,ArrayList<Transaction> transactions,Stage stage){
+        this.clients=clients;
+        this.accounts=accounts;
+        this.transactions=transactions;
+        this.stage=stage;
+    }
+    public void setData(String name,String password,HashMap<String,ArrayList<Client>> clients,HashMap<String,ArrayList<Account>> accounts,ArrayList<Transaction> transactions,Stage stage){
+        this.name=name;
+        this.password=password;
         this.clients=clients;
         this.accounts=accounts;
         this.transactions=transactions;

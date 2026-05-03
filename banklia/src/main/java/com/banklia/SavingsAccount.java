@@ -14,7 +14,7 @@ public class SavingsAccount extends Account implements InterestBearing{
         else throw new InsufficientFundsException("cannot withdraw $"+amount+"with balance $"+balance);
     }
     public void applyInterest(){
-
+        balance+=balance*interestRate;
     }
 
     public double getInterestRate() {

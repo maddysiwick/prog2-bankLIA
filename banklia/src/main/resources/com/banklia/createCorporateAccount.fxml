@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.banklia.CreateAccountController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="458.0" prefWidth="672.0" spacing="20.0" style="-fx-border-color: A6D3A0; -fx-background-color: D1FFD7;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.banklia.CreateAccountController">
     <children>
-        <Label text="Corporate Client" />
-        <TextField fx:id="corporationField" promptText="enter the name of your company"/>
-        <Button fx:id="submitCorporate" text="complete" onAction="#finishCorporateAccount"/>
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="243.0" prefWidth="416.0" spacing="30.0" style="-fx-border-color: D1FFD7;">
+         <children>
+            <StackPane prefHeight="78.0" prefWidth="632.0">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a6d3a0" height="54.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
+                    <Label prefHeight="35.0" prefWidth="174.0" text="Corporate Client">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+              <TextField fx:id="corporationField" promptText="enter the name of your company">
+               <font>
+                  <Font name="Microsoft YaHei UI" size="12.0" />
+               </font>
+            </TextField>
+              <Button fx:id="submitCorporate" onAction="#finishCorporateAccount" text="complete" />
+         </children>
+      </VBox>
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

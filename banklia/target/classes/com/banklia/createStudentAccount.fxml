@@ -1,56 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.geometry.Insets?>
 <?import java.lang.Integer?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.banklia.CreateAccountController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="458.0" prefWidth="672.0" spacing="20.0" style="-fx-background-color: D1FFD7; -fx-border-color: A6D3A0;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.banklia.CreateAccountController">
     <children>
-        <Label text="Student Client Graduation Date" />
-        <HBox alignment="CENTER" spacing="20.0">
+      <StackPane prefHeight="78.0" prefWidth="630.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a6d3a0" height="49.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="322.0" />
+              <Label prefHeight="50.0" prefWidth="271.0" text="Student Client Graduation Date">
+               <font>
+                  <Font name="Microsoft YaHei UI" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </StackPane>
+        <HBox alignment="CENTER" prefHeight="51.0" prefWidth="632.0" spacing="20.0">
             <children>
                 <ComboBox fx:id="yearBox" promptText="year">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <Integer fx:value="2026"/>
-                            <Integer fx:value="2027"/>
-                            <Integer fx:value="2028"/>
-                            <Integer fx:value="2029"/>
-                            <Integer fx:value="2030"/>
-                            <Integer fx:value="2032"/>
-                            <Integer fx:value="2033"/>
-                            <Integer fx:value="2034"/>
-                            <Integer fx:value="2035"/>
-                            <Integer fx:value="2036"/>
+                            <Integer fx:value="2026" />
+                            <Integer fx:value="2027" />
+                            <Integer fx:value="2028" />
+                            <Integer fx:value="2029" />
+                            <Integer fx:value="2030" />
+                            <Integer fx:value="2032" />
+                            <Integer fx:value="2033" />
+                            <Integer fx:value="2034" />
+                            <Integer fx:value="2035" />
+                            <Integer fx:value="2036" />
                         </FXCollections>
                     </items>
                 </ComboBox>
                 <ComboBox fx:id="monthBox" promptText="month">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <Integer fx:value="1">
-                            <Integer fx:value="2">
-                            <Integer fx:value="3">
-                            <Integer fx:value="4">
-                            <Integer fx:value="5">
-                            <Integer fx:value="6">
-                            <Integer fx:value="7">
-                            <Integer fx:value="8">
-                            <Integer fx:value="9">
-                            <Integer fx:value="10">
-                            <Integer fx:value="11">
-                            <Integer fx:value="12">
+                            <Integer fx:value="1" />
+                            <Integer fx:value="2" />
+                            <Integer fx:value="3" />
+                            <Integer fx:value="4" />
+                            <Integer fx:value="5" />
+                            <Integer fx:value="6" />
+                            <Integer fx:value="7" />
+                            <Integer fx:value="8" />
+                            <Integer fx:value="9" />
+                            <Integer fx:value="10" />
+                            <Integer fx:value="11" />
+                            <Integer fx:value="12" />
                         </FXCollections>
                     </items>
                 </ComboBox>
             </children>
-        <Button  fx:id="submitStudent" text="complete" onAction="#finishStudentAccount"/>
+        </HBox>
+        <Button fx:id="submitStudent" onAction="#finishStudentAccount" text="complete" />
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
