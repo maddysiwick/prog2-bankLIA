@@ -63,9 +63,11 @@ public class MainClientPageController {
     @FXML
     private TableColumn transactionColumn;
     @FXML
-    private TableColumn amountColumn;
+    private TableColumn newBalanceColumn;
     @FXML
     private TableColumn transactionNumberColumn;
+    @FXML
+    private TableColumn dateColumn;
     public void setData(Client activeUser,HashMap<String,ArrayList<Client>> clients,HashMap<String,ArrayList<Account>> accounts,ArrayList<Transaction> transactions,Stage stage){
         this.activeUser=activeUser;
         this.clients=clients;
@@ -284,6 +286,8 @@ public class MainClientPageController {
             openedColumn.setCellValueFactory(new PropertyValueFactory<Account,String>("dateOpened"));
             transactionColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("type"));
             transactionNumberColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("transactionID"));
+            dateColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("transactionDate"));
+            newBalanceColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("transactionID"));
             List<Account> userAccountList=userAccounts;
             ObservableList<Account> observableList = FXCollections.observableList(userAccountList);
             accountsTable.setItems(observableList);
