@@ -8,8 +8,8 @@ public class SavingsAccount extends Account implements InterestBearing{
      */
     private double interestRate=0.02;
 
-    public SavingsAccount(String accountNum, double balance, double monthlyFee) {
-        super(accountNum, balance, monthlyFee);
+    public SavingsAccount(String accountNum) {
+        super(accountNum);
     }
     /**
      * method that allows money to be withdrawn from a savings account

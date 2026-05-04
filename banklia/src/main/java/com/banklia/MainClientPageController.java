@@ -205,7 +205,7 @@ public class MainClientPageController {
     public void openChequingAccount(){
         System.out.println("should be adding chequing");
         Random r=new Random();
-        ChequingAccount chequing=new ChequingAccount(String.valueOf(r.nextInt(999999)), 0, 10);
+        ChequingAccount chequing=new ChequingAccount(String.valueOf(r.nextInt(999999)));
         activeUser.addAccount(chequing);
         userAccounts.add(chequing);
         accounts.get("chequings").add(chequing);
@@ -222,7 +222,7 @@ public class MainClientPageController {
         try{
             if(hasChequing){
                 Random r=new Random();
-                SavingsAccount savings=new SavingsAccount(String.valueOf(r.nextInt(999999)), 0, 0);
+                SavingsAccount savings=new SavingsAccount(String.valueOf(r.nextInt(999999)));
                 activeUser.addAccount(savings);
                 userAccounts.add(savings);
                 accounts.get("savings").add(savings);
@@ -245,7 +245,7 @@ public class MainClientPageController {
         try{
             if(hasChequing){
                 Random r=new Random();
-                InvestmentAccount investment=new InvestmentAccount(String.valueOf(r.nextInt(999999)), 0, 0);
+                InvestmentAccount investment=new InvestmentAccount(String.valueOf(r.nextInt(999999)));
                 activeUser.addAccount(investment);
                 userAccounts.add(investment);
                 accounts.get("investments").add(investment);

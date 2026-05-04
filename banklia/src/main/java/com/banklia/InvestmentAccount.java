@@ -9,8 +9,8 @@ public class InvestmentAccount extends Account implements InterestBearing{
      */
     private double interestRate=0.05;
 
-    public InvestmentAccount(String accountNum, double balance, double monthlyFee) {
-        super(accountNum, balance, monthlyFee);
+    public InvestmentAccount(String accountNum) {
+        super(accountNum);
     }
     /**
      * method to override the base withdraw method of Account, preventing withdrawls

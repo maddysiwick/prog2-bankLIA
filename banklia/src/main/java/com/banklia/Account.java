@@ -21,10 +21,10 @@ abstract public class Account implements Maintainable{
      */
     protected Date dateOpened;
 
-    public Account(String accountNum, double balance, double monthlyFee) {
+    public Account(String accountNum) {
         this.accountNum = accountNum;
-        this.balance = balance;
-        this.monthlyFee = monthlyFee;
+        this.balance = 0.0;
+        this.monthlyFee = 10.0;
         this.dateOpened=new Date();
     }
     /**
