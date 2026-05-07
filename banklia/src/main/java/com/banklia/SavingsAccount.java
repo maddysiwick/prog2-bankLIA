@@ -10,6 +10,7 @@ public class SavingsAccount extends Account implements InterestBearing{
 
     public SavingsAccount(String accountNum) {
         super(accountNum);
+        accountType="Savings";
     }
     /**
      * method that allows money to be withdrawn from a savings account

@@ -7,5 +7,5 @@ public interface Maintainable {
     /**
      * abstract method to apply monthly fees to bank accounts
      */
-    abstract void applyMonthlyFee();
+    abstract void applyMonthlyFee() throws InsufficientFundsException;
 }

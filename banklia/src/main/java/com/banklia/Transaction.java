@@ -31,6 +31,10 @@ public class Transaction {
      */
     private double balanceAfter;
     /**
+     * the difference in account balance 
+     */
+    private double difference;
+    /**
      * the date of the transaction
      */
     private Date TransactionDate;
@@ -45,6 +49,7 @@ public class Transaction {
         this.balanceBefore = balanceBefore;
         this.balanceAfter = balanceAfter;
         this.TransactionDate=new Date();
+        difference=balanceAfter-balanceBefore;
     }
 
     public String getTransactionID() {

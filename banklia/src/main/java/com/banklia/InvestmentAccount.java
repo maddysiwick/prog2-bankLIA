@@ -11,6 +11,7 @@ public class InvestmentAccount extends Account implements InterestBearing{
 
     public InvestmentAccount(String accountNum) {
         super(accountNum);
+        accountType="Investment";
     }
     /**
      * method to override the base withdraw method of Account, preventing withdrawls
@@ -40,10 +41,10 @@ public class InvestmentAccount extends Account implements InterestBearing{
                     balance-=amount;
                     account.deposit(amount);
                 }
-                else System.out.println("can only transfer to chequing accounts from investment accounts");
+                else throw new InvestmentLockException();
             }
             else throw new InvestmentLockException();
-        }else throw new InsufficientFundsException(accountNum);
+        }else throw new InsufficientFundsException("insufficient funds in account #"+accountNum+" to transfer");
     }
     public double getInterestRate() {
         return interestRate;

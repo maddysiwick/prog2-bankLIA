@@ -162,9 +162,9 @@ public class MainClientPageController {
                         displayTransactions();
                         transactionTable.refresh();
                     }catch(InvestmentLockException e){
-                        System.out.println(e);
+                        errorLabel.setText(e.toString());
                     }catch(InsufficientFundsException e){
-                        System.out.println(e);
+                        errorLabel.setText(e.toString());
                     }catch(NumberFormatException e){
                         errorLabel.setText("please enter a decimal number in the box");
                     }

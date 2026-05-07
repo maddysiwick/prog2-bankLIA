@@ -20,6 +20,10 @@ abstract public class Account implements Maintainable{
      * date that this account was opened
      */
     protected Date dateOpened;
+        /**
+     * represents the type of account as a string
+     */
+    protected String accountType;
 
     public Account(String accountNum) {
         this.accountNum = accountNum;
@@ -36,8 +40,9 @@ abstract public class Account implements Maintainable{
     /**
      * Subtracts the monthly fee from the account
      */
-    public void applyMonthlyFee(){
-        balance-=monthlyFee;
+    public void applyMonthlyFee() throws InsufficientFundsException{
+        if(balance>=monthlyFee) balance-=monthlyFee;
+        else throw new InsufficientFundsException("not enough funds in account #"+accountNum+" for monthly fee");
     }
     /**
      * Adda an amount to rhe balance of an account

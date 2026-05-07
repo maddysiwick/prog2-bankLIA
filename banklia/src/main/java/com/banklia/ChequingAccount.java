@@ -6,6 +6,7 @@ public class ChequingAccount extends Account{
 
     public ChequingAccount(String accountNum) {
         super(accountNum);
+        accountType="Chequing";
     }
     
     /**
