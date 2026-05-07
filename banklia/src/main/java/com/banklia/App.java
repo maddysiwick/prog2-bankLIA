@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Random;
 
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -55,7 +56,6 @@ public class App extends Application {
         accounts.put("chequings",new ArrayList<>());
         accounts.put("savings",new ArrayList<>());
         accounts.put("investments",new ArrayList<>());
-        //TODO OH MY GOD REFACTOR THIS IS FUCKING DISGUSTING
         try{
             File studentFile=new File("src\\main\\resources\\com\\banklia\\jsonFiles\\studentClients.json");
             FileReader studentReader=new FileReader(studentFile);
@@ -163,22 +163,36 @@ public class App extends Application {
         }
     }
     private static void updateAccounts(int monthsToCatchUp){
+        Random r=new Random();
         if(monthsToCatchUp>0){
             sessionInfo=new LoadInfo(new Date(), null);
         }
         for (int i = 0; i < monthsToCatchUp; i++) {
             for (Account account : accounts.get("chequings")) {
-                ((ChequingAccount) account).applyMonthlyFee();
+                try{
+                    ((ChequingAccount) account).applyMonthlyFee();
+                    //transactions.add(new Transaction(account.getAccountNum()+String.valueOf(r.nextInt(999999)), "monthly fee", , STYLESHEET_MODENA, STYLESHEET_CASPIAN, monthsToCatchUp, i))
+                }catch(InsufficientFundsException e){
+                    System.out.println(e);
+                }
             }
             for (Account account : accounts.get("savings")) {
                 SavingsAccount savings = (SavingsAccount) account;
-                savings.applyMonthlyFee();
-                savings.applyInterest();
+                try{
+                    savings.applyMonthlyFee();
+                    savings.applyInterest();
+                }catch(InsufficientFundsException e){
+                    System.out.println(e);
+                }
             }
             for (Account account : accounts.get("investments")) {
                 InvestmentAccount inv = (InvestmentAccount) account;
-                inv.applyMonthlyFee();
-                inv.applyInterest();
+                try{
+                    inv.applyMonthlyFee();
+                    inv.applyInterest();
+                }catch(InsufficientFundsException e){
+                    System.out.println(e);
+                }
             }
         }
     }
