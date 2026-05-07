@@ -170,8 +170,9 @@ public class App extends Application {
         for (int i = 0; i < monthsToCatchUp; i++) {
             for (Account account : accounts.get("chequings")) {
                 try{
+                    double balanceBefore=account.getBalance();
                     ((ChequingAccount) account).applyMonthlyFee();
-                    //transactions.add(new Transaction(account.getAccountNum()+String.valueOf(r.nextInt(999999)), "monthly fee", , STYLESHEET_MODENA, STYLESHEET_CASPIAN, monthsToCatchUp, i))
+                    transactions.add(new Transaction(account.getAccountNum()+String.valueOf(r.nextInt(999999)), "monthly fee", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
                 }catch(InsufficientFundsException e){
                     System.out.println(e);
                 }
@@ -179,8 +180,12 @@ public class App extends Application {
             for (Account account : accounts.get("savings")) {
                 SavingsAccount savings = (SavingsAccount) account;
                 try{
+                    double balanceBefore=account.getBalance();
                     savings.applyMonthlyFee();
+                    transactions.add(new Transaction(account.getAccountNum()+String.valueOf(r.nextInt(999999)), "monthly fee", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
+                    balanceBefore=account.getBalance();
                     savings.applyInterest();
+                    transactions.add(new Transaction(account.getAccountNum()+String.valueOf(r.nextInt(999999)), "interest", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
                 }catch(InsufficientFundsException e){
                     System.out.println(e);
                 }
@@ -188,8 +193,12 @@ public class App extends Application {
             for (Account account : accounts.get("investments")) {
                 InvestmentAccount inv = (InvestmentAccount) account;
                 try{
+                    double balanceBefore=account.getBalance();
                     inv.applyMonthlyFee();
+                    transactions.add(new Transaction(account.getAccountNum()+String.valueOf(r.nextInt(999999)), "monthly fee", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
+                    balanceBefore=account.getBalance();
                     inv.applyInterest();
+                    transactions.add(new Transaction(account.getAccountNum()+String.valueOf(r.nextInt(999999)), "interest", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
                 }catch(InsufficientFundsException e){
                     System.out.println(e);
                 }
@@ -210,6 +219,7 @@ public class App extends Application {
                 System.out.println(e);
             }
         launch();
+        // TODO add better quit
     }
 
 }

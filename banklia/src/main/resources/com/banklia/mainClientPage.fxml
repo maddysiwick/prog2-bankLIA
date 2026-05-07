@@ -47,6 +47,7 @@
             <TableView fx:id="accountsTable" prefHeight="248.0" prefWidth="378.0">
               <columns>
                 <TableColumn fx:id="numberColumn" editable="false" prefWidth="104.0" sortable="false" text="Account Number" />
+                <TableColumn fx:id="typeColumn" minWidth="0.0" prefWidth="69.5" text="Type" />
                 <TableColumn fx:id="balanceColumn" minWidth="0.0" prefWidth="69.5" text="Balance" />
                   <TableColumn fx:id="openedColumn" prefWidth="204.0" text="Opened On" />
               </columns>
@@ -55,7 +56,7 @@
               <columns>
                   <TableColumn fx:id="transactionNumberColumn" prefWidth="60.5" text="Number" />
                 <TableColumn fx:id="transactionColumn" prefWidth="73.5" text="Transaction" />
-                <TableColumn fx:id="newBalanceColumn" prefWidth="99.5" text="New Balance" />
+                <TableColumn fx:id="amountColumn" prefWidth="99.5" text="amount" />
                   <TableColumn fx:id="dateColumn" prefWidth="63.5" text="Date" />
               </columns>
             </TableView>

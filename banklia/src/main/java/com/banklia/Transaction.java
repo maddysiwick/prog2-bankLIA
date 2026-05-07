@@ -97,8 +97,13 @@ public class Transaction {
     public String getClientNum() {
         return clientNum;
     }
-
     public void setClientNum(String clientNum) {
         this.clientNum = clientNum;
+    }
+    public double getDifference() {
+        return difference;
+    }
+    public void setDifference(double difference) {
+        this.difference = difference;
     }
 }

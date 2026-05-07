@@ -99,4 +99,10 @@ abstract public class Account implements Maintainable{
     public void setDateOpened(Date dateOpened) {
         this.dateOpened = dateOpened;
     } 
+    public String getAccountType() {
+            return accountType;
+    }
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
 }

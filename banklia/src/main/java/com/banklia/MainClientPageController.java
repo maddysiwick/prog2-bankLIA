@@ -63,7 +63,7 @@ public class MainClientPageController {
     @FXML
     private TableColumn transactionColumn;
     @FXML
-    private TableColumn newBalanceColumn;
+    private TableColumn amountColumn;
     @FXML
     private TableColumn transactionNumberColumn;
     @FXML
@@ -285,10 +285,11 @@ public class MainClientPageController {
             numberColumn.setCellValueFactory(new PropertyValueFactory<Account,String>("accountNum"));
             balanceColumn.setCellValueFactory(new PropertyValueFactory<Account,String>("balance"));
             openedColumn.setCellValueFactory(new PropertyValueFactory<Account,String>("dateOpened"));
+            typeColumn.setCellValueFactory(new PropertyValueFactory<Account,String>("accountType"));
             transactionColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("type"));
             transactionNumberColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("transactionID"));
             dateColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("transactionDate"));
-            newBalanceColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("transactionID"));
+            amountColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("difference"));
             List<Account> userAccountList=userAccounts;
             ObservableList<Account> observableList = FXCollections.observableList(userAccountList);
             accountsTable.setItems(observableList);
