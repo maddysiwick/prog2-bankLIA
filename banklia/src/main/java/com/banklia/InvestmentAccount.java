@@ -17,8 +17,8 @@ public class InvestmentAccount extends Account implements InterestBearing{
      * method to override the base withdraw method of Account, preventing withdrawls
      * @param amount
      */
-    public void withdraw(double amount)throws InsufficientFundsException{
-        System.out.println("cannot withdraw from an investment acount");
+    public void withdraw(double amount)throws InsufficientFundsException,InvestmentLockException{
+        throw new InvestmentLockException();
     }
     /**
      * method to apply the interest gained each month

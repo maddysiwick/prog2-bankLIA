@@ -36,7 +36,7 @@ abstract public class Account implements Maintainable{
      * @param amount
      * @throws InsufficientFundsException
      */
-    abstract public void withdraw(double amount) throws InsufficientFundsException;
+    abstract public void withdraw(double amount) throws InsufficientFundsException,InvestmentLockException;
     /**
      * Subtracts the monthly fee from the account
      */

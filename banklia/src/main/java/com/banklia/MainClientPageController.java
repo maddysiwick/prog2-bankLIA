@@ -126,6 +126,8 @@ public class MainClientPageController {
                     System.out.println(selectedAcount.getBalance());
                 }catch(InsufficientFundsException e){
                     errorLabel.setText("Insufficient Funds");
+                }catch(InvestmentLockException e){
+                    errorLabel.setText("can't withdraw from an investment account");
                 }
             }
             catch(NumberFormatException e){
