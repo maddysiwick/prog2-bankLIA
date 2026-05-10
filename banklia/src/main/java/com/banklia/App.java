@@ -35,7 +35,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader loader=new FXMLLoader(getClass().getResource("welcome.fxml"));
         stage.setScene(new Scene(loader.load()));
-        ((WelcomePageController)loader.getController()).setData(clients,accounts,transactions,stage);
+        ((WelcomePageController)loader.getController()).setData(clients,accounts,transactions,sessionInfo,stage);
         stage.show();
     }
 
@@ -156,23 +156,22 @@ public class App extends Application {
             sessionInfo=gson.fromJson(infoReader,LoadInfo.class);
             infoReader.close();
             if(sessionInfo==null){
-                sessionInfo=new LoadInfo(new Date(), null);
+                sessionInfo=new LoadInfo(new Date(),10000,20000,30000);
             }
         }catch(IOException e){
             System.out.println(e);
         }
     }
     private static void updateAccounts(int monthsToCatchUp){
-        Random r=new Random();
         if(monthsToCatchUp>0){
-            sessionInfo=new LoadInfo(new Date(), null);
+            sessionInfo=new LoadInfo(new Date(),sessionInfo.getClientNum(),sessionInfo.getAccountNum(),sessionInfo.getTransactionNum());
         }
         for (int i = 0; i < monthsToCatchUp; i++) {
             for (Account account : accounts.get("chequings")) {
                 try{
                     double balanceBefore=account.getBalance();
                     ((ChequingAccount) account).applyMonthlyFee();
-                    transactions.add(new Transaction(account.getAccountNum()+String.valueOf(r.nextInt(999999)), "monthly fee", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
+                    transactions.add(new Transaction(sessionInfo.nextTransationNum(), "monthly fee", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
                 }catch(InsufficientFundsException e){
                     System.out.println(e);
                 }
@@ -182,10 +181,10 @@ public class App extends Application {
                 try{
                     double balanceBefore=account.getBalance();
                     savings.applyMonthlyFee();
-                    transactions.add(new Transaction(account.getAccountNum()+String.valueOf(r.nextInt(999999)), "monthly fee", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
+                    transactions.add(new Transaction(sessionInfo.nextTransationNum(), "monthly fee", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
                     balanceBefore=account.getBalance();
                     savings.applyInterest();
-                    transactions.add(new Transaction(account.getAccountNum()+String.valueOf(r.nextInt(999999)), "interest", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
+                    transactions.add(new Transaction(sessionInfo.nextTransationNum(), "interest", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
                 }catch(InsufficientFundsException e){
                     System.out.println(e);
                 }
@@ -195,10 +194,10 @@ public class App extends Application {
                 try{
                     double balanceBefore=account.getBalance();
                     inv.applyMonthlyFee();
-                    transactions.add(new Transaction(account.getAccountNum()+String.valueOf(r.nextInt(999999)), "monthly fee", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
+                    transactions.add(new Transaction(sessionInfo.nextTransationNum(), "monthly fee", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
                     balanceBefore=account.getBalance();
                     inv.applyInterest();
-                    transactions.add(new Transaction(account.getAccountNum()+String.valueOf(r.nextInt(999999)), "interest", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
+                    transactions.add(new Transaction(sessionInfo.nextTransationNum(), "interest", "", account.getAccountNum(), null, balanceBefore, account.getBalance()));
                 }catch(InsufficientFundsException e){
                     System.out.println(e);
                 }
@@ -210,14 +209,6 @@ public class App extends Application {
         loadData();
         int monthsSinceUpdate=(int)((new Date().getTime()-sessionInfo.getLastUpdate().getTime())/2629746000L);
         updateAccounts(monthsSinceUpdate);
-        try{
-            File infoFile=new File("src\\main\\resources\\com\\banklia\\jsonFiles\\openData.json");
-            FileWriter infoWriter=new FileWriter(infoFile);
-            gson.toJson(sessionInfo,infoWriter);
-            infoWriter.close();
-            }catch(IOException e){
-                System.out.println(e);
-            }
         launch();
         Gson gson=new Gson();
         HashMap<Object,String> objectFiles=new HashMap<>();
@@ -239,6 +230,14 @@ public class App extends Application {
                 System.out.println(e);
             }
         }
+        try{
+            File infoFile=new File("src\\main\\resources\\com\\banklia\\jsonFiles\\openData.json");
+            FileWriter infoWriter=new FileWriter(infoFile);
+            gson.toJson(sessionInfo,infoWriter);
+            infoWriter.close();
+            }catch(IOException e){
+                System.out.println(e);
+            }
     }
 
 }

@@ -2,7 +2,7 @@ package com.banklia;
 
 import java.util.Date;
 /**
- * class to combine information that is relevant between sessions
+ * class to hold information that is relevant between sessions
  */
 public class LoadInfo {
     /**
@@ -10,26 +10,59 @@ public class LoadInfo {
      */
     private Date lastUpdate;
     /**
-     * the account, if any, that was left signed in
+     * the last id used for clients
      */
-    private String signedIn;
+    private int clientNum;
+    /**
+     * the last id used for accounts
+     */
+    private int accountNum;
+    /**
+     * the last id used for transactions
+     */
+    private int transactionNum;
 
-    public LoadInfo(Date lastUpdate, String signedIn) {
+    public LoadInfo(Date lastUpdate,int clientNum,int accountNum,int transactionNum) {
         this.lastUpdate = lastUpdate;
-        this.signedIn = signedIn;
+        this.clientNum=clientNum;
+        this.accountNum=accountNum;
+        this.transactionNum=transactionNum;
     }
     
+    public String nextClientNum(){
+        clientNum++;
+        return String.valueOf(clientNum);
+    }
+    public String nextAccountNum(){
+        accountNum++;
+        return String.valueOf(accountNum);
+    }
+    public String nextTransationNum(){
+        transactionNum++;
+        return String.valueOf(transactionNum);
+    }
     public Date getLastUpdate() {
         return lastUpdate;
     }
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
-    public String getSignedIn() {
-        return signedIn;
+    public int getClientNum() {
+        return clientNum;
     }
-    public void setSignedIn(String signedIn) {
-        this.signedIn = signedIn;
+    public void setClientNum(int clientNum) {
+        this.clientNum = clientNum;
     }
-    
+    public int getAccountNum() {
+        return accountNum;
+    }
+    public void setAccountNum(int accountNum) {
+        this.accountNum = accountNum;
+    }
+    public int getTransactionNum() {
+        return transactionNum;
+    }
+    public void setTransactionNum(int transactionNum) {
+        this.transactionNum = transactionNum;
+    }
 }

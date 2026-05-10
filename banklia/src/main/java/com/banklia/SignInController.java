@@ -19,6 +19,7 @@ public class SignInController {
     private HashMap<String,ArrayList<Account>> accounts;
     private ArrayList<Transaction> transactions;
     private Stage stage;
+    private LoadInfo sessionData;
     @FXML
     private void signIn() throws IOException {
         String clientNum=clientNumField.getText();
@@ -29,7 +30,7 @@ public class SignInController {
                 if(client.getClientNum().equals(clientNum)&&client.getPassword().equals(password)){
                     FXMLLoader loader=new FXMLLoader(getClass().getResource("mainClientPage.fxml"));
                     stage.setScene(new Scene(loader.load()));
-                    ((MainClientPageController)loader.getController()).setData(client,clients,accounts,transactions,stage);
+                    ((MainClientPageController)loader.getController()).setData(client,clients,accounts,transactions,sessionData,stage);
                     stage.show();
                     System.out.println("signed in as "+client.getName());
                     signedIn=true;
@@ -40,10 +41,11 @@ public class SignInController {
             System.out.println("username or password incorrect");
         }
     }
-    public void setData(HashMap<String,ArrayList<Client>> clients,HashMap<String,ArrayList<Account>> accounts,ArrayList<Transaction> transactions,Stage stage){
+    public void setData(HashMap<String,ArrayList<Client>> clients,HashMap<String,ArrayList<Account>> accounts,ArrayList<Transaction> transactions,LoadInfo sessionData,Stage stage){
         this.clients=clients;
         this.accounts=accounts;
         this.transactions=transactions;
+        this.sessionData=sessionData;
         this.stage=stage;
     }
 }

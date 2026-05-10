@@ -34,6 +34,7 @@ public class MainClientPageController {
     private Stage stage;
     private ArrayList<Account> userAccounts;
     private Account selectedAcount=null;
+    private LoadInfo sessionData;
     @FXML
     private Label welcomeHeader;
     @FXML
@@ -68,11 +69,12 @@ public class MainClientPageController {
     private TableColumn transactionNumberColumn;
     @FXML
     private TableColumn dateColumn;
-    public void setData(Client activeUser,HashMap<String,ArrayList<Client>> clients,HashMap<String,ArrayList<Account>> accounts,ArrayList<Transaction> transactions,Stage stage){
+    public void setData(Client activeUser,HashMap<String,ArrayList<Client>> clients,HashMap<String,ArrayList<Account>> accounts,ArrayList<Transaction> transactions,LoadInfo sessionData,Stage stage){
         this.activeUser=activeUser;
         this.clients=clients;
         this.accounts=accounts;
         this.transactions=transactions;
+        this.sessionData=sessionData;
         this.stage=stage;
         userAccounts=new ArrayList<>();
         for(String accNum:activeUser.getAccounts()){
@@ -88,15 +90,12 @@ public class MainClientPageController {
     }
     @FXML
     public void deposit(){
-        Random r=new Random();
-        errorLabel.setText("");
         if(selectedAcount!=null){
             try{
                 double deposit=Double.parseDouble(amountInput.getText());
                 double prevBalance=selectedAcount.getBalance();
                 selectedAcount.deposit(deposit);
-                String depositID=selectedAcount.getAccountNum()+r.nextInt(999999);
-                transactions.add(new Transaction(depositID,"deposit", activeUser.getClientNum(),selectedAcount.getAccountNum(),null,prevBalance,selectedAcount.getBalance()));
+                transactions.add(new Transaction(sessionData.nextTransationNum(),"deposit", activeUser.getClientNum(),selectedAcount.getAccountNum(),null,prevBalance,selectedAcount.getBalance()));
                 accountsTable.refresh();
                 displayTransactions();
                 transactionTable.refresh();
@@ -110,7 +109,6 @@ public class MainClientPageController {
     }
     @FXML
     public void withdraw(){
-        Random r=new Random();
         errorLabel.setText("");
         if(selectedAcount!=null){
             try{
@@ -118,8 +116,7 @@ public class MainClientPageController {
                 try{
                     double prevBalance=selectedAcount.getBalance();
                     selectedAcount.withdraw(withdrawl);
-                    String transactionID=selectedAcount.getAccountNum()+r.nextInt(999999);
-                    transactions.add(new Transaction(transactionID,"withdrawl", activeUser.getClientNum(),selectedAcount.getAccountNum(),null,prevBalance,selectedAcount.getBalance()));
+                    transactions.add(new Transaction(sessionData.nextTransationNum(),"withdrawl", activeUser.getClientNum(),selectedAcount.getAccountNum(),null,prevBalance,selectedAcount.getBalance()));
                     accountsTable.refresh();
                     displayTransactions();
                     transactionTable.refresh();
@@ -138,7 +135,6 @@ public class MainClientPageController {
     }
     @FXML
     public void transfer(){
-        Random r=new Random();
         errorLabel.setText("");
         if(!transferInput.isVisible())transferInput.setVisible(true);
         else{
@@ -158,8 +154,7 @@ public class MainClientPageController {
                         double transferSum=Double.parseDouble(amountInput.getText());
                         double prevBalance=selectedAcount.getBalance();
                         selectedAcount.transfer(transferSum,transferAccount);
-                        String transactionID=selectedAcount.getAccountNum()+r.nextInt(999999);
-                        transactions.add(new Transaction(transactionID,"transfer", activeUser.getClientNum(),selectedAcount.getAccountNum(),transferInput.getText(),prevBalance,selectedAcount.getBalance()));
+                        transactions.add(new Transaction(sessionData.nextTransationNum(),"transfer", activeUser.getClientNum(),selectedAcount.getAccountNum(),transferInput.getText(),prevBalance,selectedAcount.getBalance()));
                         accountsTable.refresh();
                         displayTransactions();
                         transactionTable.refresh();
@@ -192,7 +187,7 @@ public class MainClientPageController {
         try{
             FXMLLoader loader=new FXMLLoader(getClass().getResource("welcome.fxml"));
             stage.setScene(new Scene(loader.load()));
-            ((WelcomePageController)loader.getController()).setData(clients,accounts,transactions,stage);
+            ((WelcomePageController)loader.getController()).setData(clients,accounts,transactions,sessionData,stage);
             stage.show();
         }catch(IOException e){
             System.out.println(e);
@@ -206,8 +201,7 @@ public class MainClientPageController {
     @FXML
     public void openChequingAccount(){
         try{
-            Random r=new Random();
-            ChequingAccount chequing=new ChequingAccount(String.valueOf(r.nextInt(999999)));
+            ChequingAccount chequing=new ChequingAccount(sessionData.nextAccountNum());
             activeUser.addAccount(chequing);
             userAccounts.add(chequing);
             accounts.get("chequings").add(chequing);
@@ -219,8 +213,7 @@ public class MainClientPageController {
     @FXML
     public void openSavingsAccount(){
         try{
-            Random r=new Random();
-            SavingsAccount savings=new SavingsAccount(String.valueOf(r.nextInt(999999)));
+            SavingsAccount savings=new SavingsAccount(sessionData.nextAccountNum());
             activeUser.addAccount(savings);
             userAccounts.add(savings);
             accounts.get("savings").add(savings);
@@ -233,8 +226,7 @@ public class MainClientPageController {
     @FXML
     public void openInvestmentAccount(){
         try{
-            Random r=new Random();
-            InvestmentAccount investment=new InvestmentAccount(String.valueOf(r.nextInt(999999)));
+            InvestmentAccount investment=new InvestmentAccount(sessionData.nextAccountNum());
             activeUser.addAccount(investment);
             userAccounts.add(investment);
             accounts.get("investments").add(investment);
