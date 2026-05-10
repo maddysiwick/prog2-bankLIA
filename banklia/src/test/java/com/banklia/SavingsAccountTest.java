@@ -1,12 +1,15 @@
 package com.banklia;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
-
-public class ChequingAccountTest {
+public class SavingsAccountTest {
     @Test
     public final void testWithdrawl(){
-        ChequingAccount testAcc=new ChequingAccount("1111");
+        SavingsAccount testAcc=new SavingsAccount("1111");
         testAcc.setBalance(15.0);
         try{
             testAcc.withdraw(10.0);
@@ -18,7 +21,7 @@ public class ChequingAccountTest {
     }
     @Test
     public final void testOverdraw(){
-        ChequingAccount testAcc=new ChequingAccount("1111");
+        SavingsAccount testAcc=new SavingsAccount("1111");
         testAcc.setBalance(15.0);
         try{
             testAcc.withdraw(20.0);
@@ -26,5 +29,12 @@ public class ChequingAccountTest {
         }catch(InsufficientFundsException e){
             assertTrue(true,"throws an exception on overdraft");
         }
+    }
+    @Test
+    public final void testApplyInterest(){
+        SavingsAccount testAcc=new SavingsAccount("1111");
+        testAcc.setBalance(100.0);
+        testAcc.applyInterest();
+        assertEquals(102.0,testAcc.getBalance(),"apply interest works");
     }
 }
