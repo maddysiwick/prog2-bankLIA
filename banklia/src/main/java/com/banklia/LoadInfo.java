@@ -2,7 +2,8 @@ package com.banklia;
 
 import java.util.Date;
 /**
- * class to hold information that is relevant between sessions
+ * class to hold information that is relevant between sessions, such as the last day the accounts were updated
+ * or the last used id to be able to create id numbers in a sequence
  */
 public class LoadInfo {
     /**
@@ -28,15 +29,26 @@ public class LoadInfo {
         this.accountNum=accountNum;
         this.transactionNum=transactionNum;
     }
-    
+    /**
+     * returns a new clientNum in a sequence each time called, to avoid duplicates in auto generated ids
+     * @return the next clientNum in the sequence
+     */
     public String nextClientNum(){
         clientNum++;
         return String.valueOf(clientNum);
     }
+    /**
+     * returns a new accountNum in a sequence each time called, to avoid duplicates in auto generated ids
+     * @return the next accountNum in the sequence
+     */
     public String nextAccountNum(){
         accountNum++;
         return String.valueOf(accountNum);
     }
+    /**
+     * returns a new transactionNum in a sequence each time called, to avoid duplicates in auto generated ids
+     * @return the next transactionNum in the sequence
+     */
     public String nextTransationNum(){
         transactionNum++;
         return String.valueOf(transactionNum);

@@ -22,16 +22,33 @@ import java.util.Date;
  * An eBanking app
  */
 public class App extends Application {
-
+    /**
+     * TODO
+     */
     private static Scene scene;
+    /**
+     * all accounts sorted by account type
+     */
     private static HashMap<String,ArrayList<Account>> accounts=new HashMap<>();
+    /**
+     * all clients sorted by client type
+     */
     private static HashMap<String,ArrayList<Client>> clients=new HashMap<>();
+    /**
+     * all transactions
+     */
     private static ArrayList<Transaction> transactions;
+    /**
+     * the information loaded from previous sessions
+     */
     private static LoadInfo sessionInfo;
+    /**
+     * TODO
+     */
     private static Gson gson=new Gson();
 
     /**
-     * 
+     * TODO
      */
     @Override
     public void start(Stage stage) throws IOException {

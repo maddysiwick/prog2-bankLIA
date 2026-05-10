@@ -1,19 +1,16 @@
 package com.banklia;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,19 +18,42 @@ import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 public class MainClientPageController {
+    /**
+     * client currently signed in
+     */
     Client activeUser;
+    /**
+     * all clients sorted by client type
+     */
     private HashMap<String,ArrayList<Client>> clients;
+    /**
+     * all accounts sorted by account type
+     */
     private HashMap<String,ArrayList<Account>> accounts;
+    /**
+     * all transactions
+     */
     private ArrayList<Transaction> transactions;
+    /**
+     * TODO
+     */
     private Stage stage;
+    /**
+     * accounts related to the currently signed in user
+     */
     private ArrayList<Account> userAccounts;
+    /**
+     * the account currently selected by the user from their account list
+     */
     private Account selectedAcount=null;
+    /**
+     * important information saved from other sessions
+     */
     private LoadInfo sessionData;
     @FXML
     private Label welcomeHeader;
@@ -69,6 +89,15 @@ public class MainClientPageController {
     private TableColumn transactionNumberColumn;
     @FXML
     private TableColumn dateColumn;
+    /**
+     * data recieved from the previous page
+     * @param activeUser
+     * @param clients
+     * @param accounts
+     * @param transactions
+     * @param sessionData
+     * @param stage
+     */
     public void setData(Client activeUser,HashMap<String,ArrayList<Client>> clients,HashMap<String,ArrayList<Account>> accounts,ArrayList<Transaction> transactions,LoadInfo sessionData,Stage stage){
         this.activeUser=activeUser;
         this.clients=clients;
@@ -88,6 +117,9 @@ public class MainClientPageController {
             }
         }
     }
+    /**
+     * handles the user clicking the deposit button
+     */
     @FXML
     public void deposit(){
         transferInput.setVisible(false);
@@ -109,6 +141,9 @@ public class MainClientPageController {
         }
         else errorLabel.setText("must select an account before depositing");
     }
+    /**
+     * handles the user clicking the withdraw button
+     */
     @FXML
     public void withdraw(){
         transferInput.setVisible(false);
@@ -136,6 +171,9 @@ public class MainClientPageController {
         }
         else errorLabel.setText("must select an account before depositing");
     }
+    /**
+     * handles the user hitting the transfer button
+     */
     @FXML
     public void transfer(){
         errorLabel.setText("");
@@ -175,6 +213,9 @@ public class MainClientPageController {
             }
         }
     }
+    /**
+     * finds and displays the necessary transactions based on the selected account
+     */
     private void displayTransactions(){
         ArrayList<Transaction> accountTransactions=new ArrayList<>();
         for(Transaction transaction:transactions){
@@ -186,6 +227,9 @@ public class MainClientPageController {
             transactionTable.setItems(observableList);
         }
     }
+    /**
+     * handles the user hitting the signout button
+     */
     @FXML
     public void signout(){
         saveData();
@@ -198,11 +242,15 @@ public class MainClientPageController {
             System.out.println(e);
         }
     }
+    //TODO delete
     @FXML
     private void quit(){
         saveData();
         Platform.exit();
     }
+    /**
+     * handles the user clicking the open chequing account option in the account menu
+     */
     @FXML
     public void openChequingAccount(){
         try{
@@ -215,6 +263,9 @@ public class MainClientPageController {
             System.out.println("something is wrong should never be thrown in this case");
         }
     }
+    /**
+     * handles the user clicking the open savings account option in the account menu
+     */
     @FXML
     public void openSavingsAccount(){
         try{
@@ -228,6 +279,9 @@ public class MainClientPageController {
         }
         accountsTable.refresh();
     }
+    /**
+     * handles the user clicking the open savings account option in the account menu
+     */
     @FXML
     public void openInvestmentAccount(){
         try{
@@ -240,6 +294,7 @@ public class MainClientPageController {
             errorLabel.setText(e.toString());
         }
     }
+    //TODO DELETE
     private void saveData(){
         Gson gson=new Gson();
         HashMap<Object,String> objectFiles=new HashMap<>();
@@ -262,6 +317,9 @@ public class MainClientPageController {
             }
         }
     }
+    /**
+     * initializes the values of the GUI elements
+     */
     @FXML
     public void initialize() {
         Platform.runLater(() -> {
