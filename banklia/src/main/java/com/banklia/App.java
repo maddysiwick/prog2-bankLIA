@@ -219,7 +219,26 @@ public class App extends Application {
                 System.out.println(e);
             }
         launch();
-        // TODO add better quit
+        Gson gson=new Gson();
+        HashMap<Object,String> objectFiles=new HashMap<>();
+        objectFiles.put(clients.get("students"),"studentClients.json");
+        objectFiles.put(clients.get("individuals"),"individualClients.json");
+        objectFiles.put(clients.get("corporates"),"corporateClients.json");
+        objectFiles.put(clients.get("vips"),"vipClients.json");
+        objectFiles.put(accounts.get("chequings"),"chequingAccounts.json");
+        objectFiles.put(accounts.get("savings"),"savingsAccounts.json");
+        objectFiles.put(accounts.get("investments"),"investmentAccounts.json");
+        objectFiles.put(transactions,"transactionHistory.json");
+        for(Object thing:objectFiles.keySet()){
+            try{
+            File file=new File("src\\main\\resources\\com\\banklia\\jsonFiles\\"+objectFiles.get(thing));
+            FileWriter writer=new FileWriter(file);
+            gson.toJson(thing,writer);
+            writer.close();
+            }catch(Exception e){
+                System.out.println(e);
+            }
+        }
     }
 
 }
