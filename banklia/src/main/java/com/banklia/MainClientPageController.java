@@ -90,6 +90,8 @@ public class MainClientPageController {
     }
     @FXML
     public void deposit(){
+        transferInput.setVisible(false);
+        errorLabel.setText("");
         if(selectedAcount!=null){
             try{
                 double deposit=Double.parseDouble(amountInput.getText());
@@ -109,6 +111,7 @@ public class MainClientPageController {
     }
     @FXML
     public void withdraw(){
+        transferInput.setVisible(false);
         errorLabel.setText("");
         if(selectedAcount!=null){
             try{
@@ -158,6 +161,8 @@ public class MainClientPageController {
                         accountsTable.refresh();
                         displayTransactions();
                         transactionTable.refresh();
+                        transferInput.setVisible(false);
+                        errorLabel.setText("");
                     }catch(InvestmentLockException e){
                         errorLabel.setText(e.toString());
                     }catch(InsufficientFundsException e){

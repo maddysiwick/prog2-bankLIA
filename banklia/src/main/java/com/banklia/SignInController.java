@@ -7,7 +7,7 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class SignInController {
@@ -15,6 +15,8 @@ public class SignInController {
     private TextField clientNumField;
     @FXML
     private TextField passwordField;
+    @FXML
+    private Label errorLabel;
     private HashMap<String,ArrayList<Client>> clients;
     private HashMap<String,ArrayList<Account>> accounts;
     private ArrayList<Transaction> transactions;
@@ -32,13 +34,12 @@ public class SignInController {
                     stage.setScene(new Scene(loader.load()));
                     ((MainClientPageController)loader.getController()).setData(client,clients,accounts,transactions,sessionData,stage);
                     stage.show();
-                    System.out.println("signed in as "+client.getName());
                     signedIn=true;
                 }
             }
         }
         if(!signedIn){
-            System.out.println("username or password incorrect");
+            errorLabel.setText("Username or password incorrect");
         }
     }
     public void setData(HashMap<String,ArrayList<Client>> clients,HashMap<String,ArrayList<Account>> accounts,ArrayList<Transaction> transactions,LoadInfo sessionData,Stage stage){

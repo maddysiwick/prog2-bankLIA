@@ -10,7 +10,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Random;
 
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * JavaFX App
+ * An eBanking app
  */
 public class App extends Application {
 
@@ -31,6 +30,9 @@ public class App extends Application {
     private static LoadInfo sessionInfo;
     private static Gson gson=new Gson();
 
+    /**
+     * 
+     */
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader loader=new FXMLLoader(getClass().getResource("welcome.fxml"));
@@ -38,16 +40,9 @@ public class App extends Application {
         ((WelcomePageController)loader.getController()).setData(clients,accounts,transactions,sessionInfo,stage);
         stage.show();
     }
-
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
-
+    /**
+     * loads in data from json files for all important entities
+     */
     private static void loadData(){
         clients.put("students",new ArrayList<>());
         clients.put("individuals",new ArrayList<>());
@@ -140,7 +135,6 @@ public class App extends Application {
         }catch(Exception e){
             System.out.println("can't read savings accounts: "+e);
         }
-        //exclude from refactoring when i do it
         try{
             File transactionsFile=new File("src\\main\\resources\\com\\banklia\\jsonFiles\\transactionHistory.json");
             FileReader transactionsReader=new FileReader(transactionsFile);
@@ -162,6 +156,10 @@ public class App extends Application {
             System.out.println(e);
         }
     }
+    /**
+     * applies monthly fees and interest to all accounts
+     * @param monthsToCatchUp the number of months since accounts were last updated
+     */
     private static void updateAccounts(int monthsToCatchUp){
         if(monthsToCatchUp>0){
             sessionInfo=new LoadInfo(new Date(),sessionInfo.getClientNum(),sessionInfo.getAccountNum(),sessionInfo.getTransactionNum());
@@ -205,6 +203,10 @@ public class App extends Application {
         }
     }
 
+    /**
+     * the main method that runs the app
+     * @param args
+     */
     public static void main(String[] args) {
         loadData();
         int monthsSinceUpdate=(int)((new Date().getTime()-sessionInfo.getLastUpdate().getTime())/2629746000L);

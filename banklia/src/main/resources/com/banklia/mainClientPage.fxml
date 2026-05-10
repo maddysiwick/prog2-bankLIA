@@ -9,42 +9,49 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="541.0" prefWidth="792.0" spacing="20.0" style="-fx-background-color: D1FFD7;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.banklia.MainClientPageController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="551.0" prefWidth="895.0" spacing="20.0" style="-fx-background-color: D1FFD7;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.banklia.MainClientPageController">
     <children>
-        <HBox alignment="TOP_CENTER" prefHeight="36.0" prefWidth="632.0" spacing="20.0">
-            <children>
-                <Label fx:id="welcomeHeader" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="392.0" text="">
-               <font>
-                  <Font name="Lucida Console" size="18.0" />
-               </font></Label>
-            <MenuButton mnemonicParsing="false" text="Open Account">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#openChequingAccount" text="Chequing Account" />
-                <MenuItem mnemonicParsing="false" onAction="#openSavingsAccount" text="Savings Accoount" />
-                  <MenuItem mnemonicParsing="false" onAction="#openInvestmentAccount" text="Investment Account" />
-              </items>
-               <font>
-                  <Font name="Microsoft YaHei UI" size="12.0" />
-               </font>
-            </MenuButton>
-            <MenuButton fx:id="leaveMenu" mnemonicParsing="false" text="Leave">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#signout" text="Sign out" />
-                <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit" />
-              </items>
-               <font>
-                  <Font name="Microsoft YaHei UI" size="12.0" />
-               </font>
-            </MenuButton>
-            </children>
-        </HBox>
-      <TilePane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="278.0" prefWidth="606.0" tileAlignment="TOP_LEFT">
+      <StackPane prefHeight="83.0" prefWidth="855.0">
          <children>
-            <TableView fx:id="accountsTable" prefHeight="248.0" prefWidth="378.0">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a6d3a0" height="76.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="850.0" />
+              <HBox alignment="CENTER" prefHeight="95.0" prefWidth="855.0" spacing="20.0">
+                  <children>
+                      <Label fx:id="welcomeHeader" alignment="TOP_LEFT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="56.0" prefWidth="489.0" text="">
+                     <font>
+                        <Font name="Lucida Console" size="36.0" />
+                     </font>
+                  </Label>
+                  <MenuButton mnemonicParsing="false" text="Open Account">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#openChequingAccount" text="Chequing Account" />
+                      <MenuItem mnemonicParsing="false" onAction="#openSavingsAccount" text="Savings Accoount" />
+                        <MenuItem mnemonicParsing="false" onAction="#openInvestmentAccount" text="Investment Account" />
+                    </items>
+                     <font>
+                        <Font name="Microsoft YaHei UI" size="12.0" />
+                     </font>
+                  </MenuButton>
+                  <MenuButton fx:id="leaveMenu" mnemonicParsing="false" text="Leave">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#signout" text="Sign out" />
+                      <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit" />
+                    </items>
+                     <font>
+                        <Font name="Microsoft YaHei UI" size="12.0" />
+                     </font>
+                  </MenuButton>
+                  </children>
+              </HBox>
+         </children>
+      </StackPane>
+      <HBox alignment="TOP_CENTER" prefHeight="265.0" prefWidth="855.0" spacing="20.0">
+         <children>
+            <TableView fx:id="accountsTable" prefHeight="248.0" prefWidth="430.0">
               <columns>
                 <TableColumn fx:id="numberColumn" editable="false" prefWidth="104.0" sortable="false" text="Account Number" />
                 <TableColumn fx:id="typeColumn" minWidth="0.0" prefWidth="69.5" text="Type" />
@@ -52,50 +59,55 @@
                   <TableColumn fx:id="openedColumn" prefWidth="204.0" text="Opened On" />
               </columns>
             </TableView>
-            <TableView fx:id="transactionTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="298.0">
+            <TableView fx:id="transactionTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="400.0">
               <columns>
-                  <TableColumn fx:id="transactionNumberColumn" prefWidth="60.5" text="Number" />
-                <TableColumn fx:id="transactionColumn" prefWidth="73.5" text="Transaction" />
-                <TableColumn fx:id="amountColumn" prefWidth="99.5" text="amount" />
-                  <TableColumn fx:id="dateColumn" prefWidth="63.5" text="Date" />
+                  <TableColumn fx:id="transactionNumberColumn" prefWidth="85.0" text="Number" />
+                <TableColumn fx:id="transactionColumn" prefWidth="89.0" text="Transaction" />
+                <TableColumn fx:id="amountColumn" prefWidth="63.0" text="amount" />
+                  <TableColumn fx:id="dateColumn" prefWidth="162.0" text="Date" />
               </columns>
             </TableView>
          </children>
-      </TilePane>
-      <Label fx:id="errorLabel" contentDisplay="CENTER" prefHeight="17.0" prefWidth="315.0" textFill="#e4512c">
+      </HBox>
+      <Label fx:id="errorLabel" contentDisplay="CENTER" prefHeight="19.0" prefWidth="650.0" textFill="#d24421">
          <font>
             <Font name="Microsoft YaHei UI" size="14.0" />
          </font>
       </Label>
-      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="57.0" prefWidth="606.0" spacing="20.0">
+      <StackPane prefHeight="66.0" prefWidth="855.0">
          <children>
-            <Button fx:id="depositButton" alignment="CENTER" mnemonicParsing="false" onAction="#deposit" text="Deposit">
-               <font>
-                  <Font name="Microsoft YaHei UI" size="12.0" />
-               </font>
-            </Button>
-            <Button fx:id="withdrawButton" mnemonicParsing="false" onAction="#withdraw" text="Withdraw">
-               <font>
-                  <Font name="Microsoft YaHei UI" size="12.0" />
-               </font>
-            </Button>
-            <Button fx:id="transferButton" mnemonicParsing="false" text="Transfer" onAction="#transfer">
-               <font>
-                  <Font name="Microsoft YaHei UI" size="12.0" />
-               </font>
-            </Button>
-            <TextField fx:id="amountInput" promptText="amount">
-               <font>
-                  <Font name="Microsoft YaHei UI" size="12.0" />
-               </font>
-            </TextField>
-            <TextField fx:id="transferInput" promptText="destination" visible="false">
-               <font>
-                  <Font name="Microsoft YaHei UI" size="12.0" />
-               </font>
-            </TextField>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a6d3a0" height="46.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="646.0" />
+            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="57.0" prefWidth="606.0" spacing="20.0">
+               <children>
+                  <Button fx:id="depositButton" alignment="CENTER" mnemonicParsing="false" onAction="#deposit" text="Deposit">
+                     <font>
+                        <Font name="Microsoft YaHei UI" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="withdrawButton" mnemonicParsing="false" onAction="#withdraw" text="Withdraw">
+                     <font>
+                        <Font name="Microsoft YaHei UI" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="transferButton" mnemonicParsing="false" onAction="#transfer" text="Transfer">
+                     <font>
+                        <Font name="Microsoft YaHei UI" size="12.0" />
+                     </font>
+                  </Button>
+                  <TextField fx:id="amountInput" promptText="amount">
+                     <font>
+                        <Font name="Microsoft YaHei UI" size="12.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="transferInput" promptText="destination" visible="false">
+                     <font>
+                        <Font name="Microsoft YaHei UI" size="12.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
          </children>
-      </HBox>
+      </StackPane>
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
