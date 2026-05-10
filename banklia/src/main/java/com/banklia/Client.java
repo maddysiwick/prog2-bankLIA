@@ -17,6 +17,10 @@ abstract public class Client{
      */
     protected String password;
     /**
+     * whether this client has ope
+     */
+    protected boolean hasChequing;
+    /**
      * account numbers associated with this client
      */
     protected ArrayList<String> accounts;
@@ -26,13 +30,21 @@ abstract public class Client{
         this.name = name;
         this.password = password;
         this.accounts = accounts;
+        hasChequing=false;
     }
     /**
      * add an account under the client
      * @param accountNum
      */
-    public void addAccount(Account account){
-        accounts.add(account.getAccountNum());
+    public void addAccount(Account account) throws MissingChequingAccountException{
+        if(account instanceof ChequingAccount){
+            hasChequing=true;
+            accounts.add(account.getAccountNum());
+        }
+        else if(hasChequing) accounts.add(account.getAccountNum());
+        else{
+            throw new MissingChequingAccountException("must have a chequing account before opening an account of another type");
+        }
     }
 
     public String getClientNum() {
@@ -58,5 +70,11 @@ abstract public class Client{
     }
     public void setAccounts(ArrayList<String> accounts) {
         this.accounts = accounts;
+    }
+    public boolean isHasChequing() {
+        return hasChequing;
+    }
+    public void setHasChequing(boolean hasChequing) {
+        this.hasChequing = hasChequing;
     }
 }

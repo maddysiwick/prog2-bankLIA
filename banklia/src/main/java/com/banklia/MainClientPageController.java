@@ -205,32 +205,26 @@ public class MainClientPageController {
     }
     @FXML
     public void openChequingAccount(){
-        System.out.println("should be adding chequing");
-        Random r=new Random();
-        ChequingAccount chequing=new ChequingAccount(String.valueOf(r.nextInt(999999)));
-        activeUser.addAccount(chequing);
-        userAccounts.add(chequing);
-        accounts.get("chequings").add(chequing);
-        accountsTable.refresh();
+        try{
+            Random r=new Random();
+            ChequingAccount chequing=new ChequingAccount(String.valueOf(r.nextInt(999999)));
+            activeUser.addAccount(chequing);
+            userAccounts.add(chequing);
+            accounts.get("chequings").add(chequing);
+            accountsTable.refresh();
+        }catch(MissingChequingAccountException e){
+            System.out.println("something is wrong should never be thrown in this case");
+        }
     }
     @FXML
     public void openSavingsAccount(){
-        boolean hasChequing=false;
-        for(Account userAccount:userAccounts){
-            if(userAccount instanceof ChequingAccount){
-                hasChequing=true;
-            }
-        }
         try{
-            if(hasChequing){
-                Random r=new Random();
-                SavingsAccount savings=new SavingsAccount(String.valueOf(r.nextInt(999999)));
-                activeUser.addAccount(savings);
-                userAccounts.add(savings);
-                accounts.get("savings").add(savings);
-                accountsTable.refresh();
-            }
-            else throw new MissingChequingAccountException("must have a chequing account before opening an account of another type");
+            Random r=new Random();
+            SavingsAccount savings=new SavingsAccount(String.valueOf(r.nextInt(999999)));
+            activeUser.addAccount(savings);
+            userAccounts.add(savings);
+            accounts.get("savings").add(savings);
+            accountsTable.refresh();
         }catch(MissingChequingAccountException e){
             errorLabel.setText(e.toString());
         }
@@ -238,22 +232,13 @@ public class MainClientPageController {
     }
     @FXML
     public void openInvestmentAccount(){
-        boolean hasChequing=false;
-        for(Account userAccount:userAccounts){
-            if(userAccount instanceof ChequingAccount){
-                hasChequing=true;
-            }
-        }
         try{
-            if(hasChequing){
-                Random r=new Random();
-                InvestmentAccount investment=new InvestmentAccount(String.valueOf(r.nextInt(999999)));
-                activeUser.addAccount(investment);
-                userAccounts.add(investment);
-                accounts.get("investments").add(investment);
-                accountsTable.refresh();
-            }
-            else throw new MissingChequingAccountException("must have a chequing account before opening an account of another type");
+            Random r=new Random();
+            InvestmentAccount investment=new InvestmentAccount(String.valueOf(r.nextInt(999999)));
+            activeUser.addAccount(investment);
+            userAccounts.add(investment);
+            accounts.get("investments").add(investment);
+            accountsTable.refresh();
         }catch(MissingChequingAccountException e){
             errorLabel.setText(e.toString());
         }

@@ -26,9 +26,9 @@ public class StudentClient extends StandardClient{
      * of that account to zero
      * @param account
      */
-    public void addAccount(Account account){
+    public void addAccount(Account account) throws MissingChequingAccountException{
         account.setMonthlyFee(monthlyFee);
-        accounts.add(account.getAccountNum());
+        super.addAccount(account);
     }
 
     public void setStatusExpiryDate(Date statusExpiryDate) {

@@ -20,11 +20,11 @@ public class VIPCLient extends PremiumClient{
      * method overriding the basic addAccount method in Client, allowing interest rates to be increased and monthly fees to be waived
      * @param account
      */
-    public void addAccount(Account account){
+    public void addAccount(Account account) throws MissingChequingAccountException{
         account.setMonthlyFee(monthlyFee);
         if(account instanceof InvestmentAccount)((InvestmentAccount)account).setInterestRate(((InvestmentAccount)account).getInterestRate()+extraInterest);
         if(account instanceof SavingsAccount)((SavingsAccount)account).setInterestRate(((SavingsAccount)account).getInterestRate()+extraInterest);
-        accounts.add(account.getAccountNum());
+        super.addAccount(account);
     }
 
     public double getMonthlyFee() {
