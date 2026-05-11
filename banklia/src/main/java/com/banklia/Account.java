@@ -58,7 +58,22 @@ abstract public class Account implements Maintainable{
      * @param currency
      */
     public void deposit(double amount,String currency){
-
+        switch(currency){
+            case "CAD":
+                deposit(amount);
+                break;
+            case "USD":
+                deposit(amount*1.37);
+                break;
+            case "EURO":
+                deposit(amount*1.61);
+                break;
+            case "YEN":
+                deposit(amount*0.0087);
+                break;
+            default:
+                deposit(amount);
+        }
     }
     /**
      * transfer money from one account to another

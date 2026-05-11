@@ -29,10 +29,6 @@ public class WelcomePageController {
         ((CreateAccountController)loader.getController()).setData(clients,accounts,transactions,sessionData,stage);
         stage.show();
     }
-    @FXML
-    private void quit() throws IOException {
-        App.setRoot("secondary");
-    }
     public void setData(HashMap<String,ArrayList<Client>> clients,HashMap<String,ArrayList<Account>> accounts,ArrayList<Transaction> transactions,LoadInfo sessionData,Stage stage){
         this.clients=clients;
         this.accounts=accounts;

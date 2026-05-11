@@ -22,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 public class MainClientPageController {
     /**
      * client currently signed in
@@ -55,6 +56,10 @@ public class MainClientPageController {
      * important information saved from other sessions
      */
     private LoadInfo sessionData;
+    /**
+     * the ratio of the chosen currency to CAD
+     */
+    private String currency="CAD";
     @FXML
     private Label welcomeHeader;
     @FXML
@@ -89,6 +94,8 @@ public class MainClientPageController {
     private TableColumn transactionNumberColumn;
     @FXML
     private TableColumn dateColumn;
+    @FXML
+    private ComboBox<String> currencyChoice;
     /**
      * data recieved from the previous page
      * @param activeUser
@@ -128,12 +135,12 @@ public class MainClientPageController {
             try{
                 double deposit=Double.parseDouble(amountInput.getText());
                 double prevBalance=selectedAcount.getBalance();
-                selectedAcount.deposit(deposit);
+                if(!currency.equals("CAD")&&currency!=null) selectedAcount.deposit(deposit,currency);
+                else selectedAcount.deposit(deposit);
                 transactions.add(new Transaction(sessionData.nextTransationNum(),"deposit", activeUser.getClientNum(),selectedAcount.getAccountNum(),null,prevBalance,selectedAcount.getBalance()));
                 accountsTable.refresh();
                 displayTransactions();
                 transactionTable.refresh();
-                System.out.println(selectedAcount.getBalance());
             }
             catch(NumberFormatException e){
                 errorLabel.setText("please enter a decimal number in the box");
@@ -316,6 +323,10 @@ public class MainClientPageController {
                 System.out.println(e);
             }
         }
+    }
+    @FXML
+    public void changeCurrency(){
+        currency=currencyChoice.getValue();
     }
     /**
      * initializes the values of the GUI elements

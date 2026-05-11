@@ -1,1 +1,1 @@
-[]
+[{"clientNum":"10003","name":"madeleine","password":"newpassword123","hasChequing":false,"accounts":[]},{"clientNum":"10004","name":"madeleine","password":"newpassword123","hasChequing":true,"accounts":["20004"]}]
