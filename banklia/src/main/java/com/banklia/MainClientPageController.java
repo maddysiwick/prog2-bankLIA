@@ -1,13 +1,9 @@
 package com.banklia;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
-
-import com.google.gson.Gson;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -65,9 +61,9 @@ public class MainClientPageController {
     @FXML
     private Label errorLabel;
     @FXML
-    private TableView accountsTable;
+    private TableView<Account> accountsTable;
     @FXML
-    private TableView transactionTable;
+    private TableView<Transaction> transactionTable;
     @FXML
     private Button despositButton;
     @FXML
@@ -79,23 +75,25 @@ public class MainClientPageController {
     @FXML
     private TextField transferInput;
     @FXML
-    private TableColumn numberColumn;
+    private TableColumn<Account,String> numberColumn;
     @FXML
-    private TableColumn balanceColumn;
+    private TableColumn<Account,String> balanceColumn;
     @FXML
-    private TableColumn typeColumn;
+    private TableColumn<Account,String> typeColumn;
     @FXML
-    private TableColumn openedColumn;
+    private TableColumn<Account,String> openedColumn;
     @FXML
-    private TableColumn transactionColumn;
+    private TableColumn<Transaction,String> transactionColumn;
     @FXML
-    private TableColumn amountColumn;
+    private TableColumn<Transaction,String> amountColumn;
     @FXML
-    private TableColumn transactionNumberColumn;
+    private TableColumn<Transaction,String> transactionNumberColumn;
     @FXML
-    private TableColumn dateColumn;
+    private TableColumn<Transaction,String> dateColumn;
     @FXML
     private ComboBox<String> currencyChoice;
+    @FXML
+    private Label clientTypeLabel;
     /**
      * data recieved from the previous page
      * @param activeUser
@@ -189,11 +187,14 @@ public class MainClientPageController {
             if(selectedAcount!=null){
                 boolean accountExists=false;
                 Account transferAccount=null;
+                double formerOtherbalance=0.0;
                 for(String accountType:accounts.keySet()){
                     for(Account account:accounts.get(accountType)){
                         if(account.getAccountNum().equals(transferInput.getText())){
                             accountExists=true;
                             transferAccount=account;
+                            formerOtherbalance=account.getBalance();
+                            break;
                         }
                     }
                 }
@@ -203,6 +204,7 @@ public class MainClientPageController {
                         double prevBalance=selectedAcount.getBalance();
                         selectedAcount.transfer(transferSum,transferAccount);
                         transactions.add(new Transaction(sessionData.nextTransationNum(),"transfer", activeUser.getClientNum(),selectedAcount.getAccountNum(),transferInput.getText(),prevBalance,selectedAcount.getBalance()));
+                        transactions.add(new Transaction(sessionData.nextTransationNum(),"transfer", activeUser.getClientNum(),transferInput.getText(),selectedAcount.getAccountNum(),formerOtherbalance,transferAccount.getBalance()));
                         accountsTable.refresh();
                         displayTransactions();
                         transactionTable.refresh();
@@ -239,7 +241,6 @@ public class MainClientPageController {
      */
     @FXML
     public void signout(){
-        saveData();
         try{
             FXMLLoader loader=new FXMLLoader(getClass().getResource("welcome.fxml"));
             stage.setScene(new Scene(loader.load()));
@@ -248,12 +249,6 @@ public class MainClientPageController {
         }catch(IOException e){
             System.out.println(e);
         }
-    }
-    //TODO delete
-    @FXML
-    private void quit(){
-        saveData();
-        Platform.exit();
     }
     /**
      * handles the user clicking the open chequing account option in the account menu
@@ -301,29 +296,6 @@ public class MainClientPageController {
             errorLabel.setText(e.toString());
         }
     }
-    //TODO DELETE
-    private void saveData(){
-        Gson gson=new Gson();
-        HashMap<Object,String> objectFiles=new HashMap<>();
-        objectFiles.put(clients.get("students"),"studentClients.json");
-        objectFiles.put(clients.get("individuals"),"individualClients.json");
-        objectFiles.put(clients.get("corporates"),"corporateClients.json");
-        objectFiles.put(clients.get("vips"),"vipClients.json");
-        objectFiles.put(accounts.get("chequings"),"chequingAccounts.json");
-        objectFiles.put(accounts.get("savings"),"savingsAccounts.json");
-        objectFiles.put(accounts.get("investments"),"investmentAccounts.json");
-        objectFiles.put(transactions,"transactionHistory.json");
-        for(Object thing:objectFiles.keySet()){
-            try{
-            File file=new File("src\\main\\resources\\com\\banklia\\jsonFiles\\"+objectFiles.get(thing));
-            FileWriter writer=new FileWriter(file);
-            gson.toJson(thing,writer);
-            writer.close();
-            }catch(Exception e){
-                System.out.println(e);
-            }
-        }
-    }
     @FXML
     public void changeCurrency(){
         currency=currencyChoice.getValue();
@@ -346,6 +318,10 @@ public class MainClientPageController {
             List<Account> userAccountList=userAccounts;
             ObservableList<Account> observableList = FXCollections.observableList(userAccountList);
             accountsTable.setItems(observableList);
+            if(activeUser instanceof StudentClient) clientTypeLabel.setText("Student Client, Graduation Date: "+((StudentClient)activeUser).getStatusExpiryDate());
+            else if(activeUser instanceof CorporateClient) clientTypeLabel.setText("Corporate Client, Company: "+((CorporateClient)activeUser).getCompanyName());
+            else if(activeUser instanceof VIPCLient) clientTypeLabel.setText("VIP Client");
+            else clientTypeLabel.setText("Individual Client");
         });  
         accountsTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
                 if (newSelection != null) {

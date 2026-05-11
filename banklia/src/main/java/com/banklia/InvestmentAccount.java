@@ -36,7 +36,8 @@ public class InvestmentAccount extends Account implements InterestBearing{
      */
     public void transfer(double amount,Account account) throws InvestmentLockException,InsufficientFundsException{
         if(balance>=amount){
-            if(new Date().getTime()-dateOpened.getTime()>86400000){
+            System.out.println(new Date().getTime()-dateOpened.getTime());
+            if(dateOpened.getTime()-new Date().getTime()>(86400000*365)){
                 if(account instanceof ChequingAccount){
                     balance-=amount;
                     account.deposit(amount);
