@@ -16,8 +16,10 @@ public class SavingsAccount extends Account implements InterestBearing{
      * method that allows money to be withdrawn from a savings account
      * @param amount
      * @throws InsufficientFundsException
+     * @throws NegativeMoneyException
      */
-    public void withdraw(double amount)throws InsufficientFundsException{
+    public void withdraw(double amount)throws InsufficientFundsException,NegativeMoneyException{
+        if(amount<0) throw new NegativeMoneyException();
         if(amount<=balance){
             balance-=amount;
         }

@@ -16,6 +16,8 @@ public class SavingsAccountTest {
             assertEquals(5.0,testAcc.getBalance(),"simple withdraw works for chequing account");
         }catch(InsufficientFundsException e){
             fail("withdraw failed due to insufficient funds");
+        }catch(NegativeMoneyException e){
+            fail("test failed because NegativeMoneyException was thrown");
         }
 
     }
@@ -28,6 +30,8 @@ public class SavingsAccountTest {
             fail("test failed because overdrafting is allowed");
         }catch(InsufficientFundsException e){
             assertTrue(true,"throws an exception on overdraft");
+        }catch(NegativeMoneyException e){
+            fail("test failed because NegativeMoneyException was thrown");
         }
     }
     @Test

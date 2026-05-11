@@ -14,7 +14,8 @@ public class ChequingAccount extends Account{
      * @param amount
      * @throes InsufficientFundsException
      */
-    public void withdraw(double amount)throws InsufficientFundsException{
+    public void withdraw(double amount)throws InsufficientFundsException,NegativeMoneyException{
+        if(amount<0) throw new NegativeMoneyException();
         if(amount<=balance){
             balance-=amount;
         }

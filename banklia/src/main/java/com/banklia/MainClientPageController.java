@@ -139,6 +139,8 @@ public class MainClientPageController {
             }
             catch(NumberFormatException e){
                 errorLabel.setText("please enter a decimal number in the box");
+            }catch(NegativeMoneyException e){
+                errorLabel.setText("amount entered must be positive");
             }
         }
         else errorLabel.setText("must select an account before depositing");
@@ -169,6 +171,8 @@ public class MainClientPageController {
             }
             catch(NumberFormatException e){
                 errorLabel.setText("please enter a decimal number in the box");
+            }catch(NegativeMoneyException e){
+                errorLabel.setText("amount entered must be positive");
             }
         }
         else errorLabel.setText("must select an account before depositing");
@@ -213,6 +217,8 @@ public class MainClientPageController {
                         errorLabel.setText(e.toString());
                     }catch(NumberFormatException e){
                         errorLabel.setText("please enter a decimal number in the box");
+                    }catch(NegativeMoneyException e){
+                        errorLabel.setText("amount entered must be positive");
                     }
                 }
                 else errorLabel.setText("must select an account before depositing");

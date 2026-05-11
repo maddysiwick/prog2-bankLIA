@@ -41,6 +41,8 @@ public class InvestmentAccountTest {
             fail("test failed because insufficient funds should not be thrown");
         }catch(InvestmentLockException e){
             assertTrue(true);
+        }catch(NegativeMoneyException e){
+            fail("test failed because NegativeMoneyException was thrown");
         }
     }
     @Test
@@ -55,6 +57,8 @@ public class InvestmentAccountTest {
             fail("test failed because insufficient funds should not be thrown");
         }catch(InvestmentLockException e){
             assertTrue(true);
+        }catch(NegativeMoneyException e){
+            fail("test failed because NegativeMoneyException was thrown");
         }
     }
     @Test
@@ -70,6 +74,8 @@ public class InvestmentAccountTest {
             fail("test failed because insufficient funds should not be thrown");
         }catch(InvestmentLockException e){
             fail("test failed because transferring shoukd be allowed");
+        }catch(NegativeMoneyException e){
+            fail("test failed because NegativeMoneyException was thrown");
         }
     }
 }

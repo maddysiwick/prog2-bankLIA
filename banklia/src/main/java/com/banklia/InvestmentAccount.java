@@ -33,8 +33,10 @@ public class InvestmentAccount extends Account implements InterestBearing{
      * @param account account being transferred to
      * @throws InvestmentLockException
      * @throws InsufficientFundsException
+     * @throws NegativeMoneyException
      */
-    public void transfer(double amount,Account account) throws InvestmentLockException,InsufficientFundsException{
+    public void transfer(double amount,Account account) throws InvestmentLockException,InsufficientFundsException,NegativeMoneyException{
+        if(amount<0) throw new NegativeMoneyException();
         if(balance>=amount){
             System.out.println(new Date().getTime()-dateOpened.getTime());
             if(dateOpened.getTime()-new Date().getTime()>(86400000*365)){

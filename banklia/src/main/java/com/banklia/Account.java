@@ -34,9 +34,9 @@ abstract public class Account implements Maintainable{
     /**
      * abstract method representing a withdrawl of money, to be implemented differently by each account type
      * @param amount
-     * @throws InsufficientFundsException
+     * @throws InsufficientFundsException,InvestmentLockException,NegativeMoneyException
      */
-    abstract public void withdraw(double amount) throws InsufficientFundsException,InvestmentLockException;
+    abstract public void withdraw(double amount) throws InsufficientFundsException,InvestmentLockException,NegativeMoneyException;
     /**
      * Subtracts the monthly fee from the account
      */
@@ -47,8 +47,10 @@ abstract public class Account implements Maintainable{
     /**
      * Adda an amount to rhe balance of an account
      * @param amount
+     * @throws NegativeMoneyException
      */
-    public void deposit(double amount){
+    public void deposit(double amount)throws NegativeMoneyException{
+        if(amount<0) throw new NegativeMoneyException();
         balance+=amount;
     }
     /**
@@ -56,23 +58,25 @@ abstract public class Account implements Maintainable{
      * automatically convert
      * @param amount
      * @param currency
+     * @throws NegativeMoneyException
      */
-    public void deposit(double amount,String currency){
+    public void deposit(double amount,String currency) throws NegativeMoneyException{
+        if(amount<0) throw new NumberFormatException("Deposit amount cannot be negative");
         switch(currency){
-            case "CAD":
-                deposit(amount);
-                break;
-            case "USD":
-                deposit(amount*1.37);
-                break;
-            case "EURO":
-                deposit(amount*1.61);
-                break;
-            case "YEN":
-                deposit(amount*0.0087);
-                break;
-            default:
-                deposit(amount);
+        case "CAD":
+            deposit(amount);
+            break;
+        case "USD":
+            deposit(amount*1.37);
+            break;
+        case "EURO":
+            deposit(amount*1.61);
+            break;
+        case "YEN":
+            deposit(amount*0.0087);
+            break;
+        default:
+            deposit(amount);
         }
     }
     /**
@@ -81,8 +85,10 @@ abstract public class Account implements Maintainable{
      * @param account
      * @throws InvestmentLockException
      * @throws InsufficientFundsException
+     * @throws NegativeMoneyException
      */
-    public void transfer (double amount,Account account)throws InvestmentLockException,InsufficientFundsException{
+    public void transfer (double amount,Account account)throws InvestmentLockException,InsufficientFundsException,NegativeMoneyException{
+        if(amount<0) throw new NegativeMoneyException();
         if(balance>=amount){
             balance-=amount;
             account.deposit(amount);
