@@ -22,9 +22,6 @@ import java.util.Date;
  * An eBanking app
  */
 public class App extends Application {
-    /**
-     * TODO
-     */
     private static Scene scene;
     /**
      * all accounts sorted by account type
@@ -42,13 +39,11 @@ public class App extends Application {
      * the information loaded from previous sessions
      */
     private static LoadInfo sessionInfo;
-    /**
-     * TODO
-     */
+
     private static Gson gson=new Gson();
 
     /**
-     * TODO
+     * loads the first scene of the project
      */
     @Override
     public void start(Stage stage) throws IOException {

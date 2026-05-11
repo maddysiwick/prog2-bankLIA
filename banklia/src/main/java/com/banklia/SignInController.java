@@ -32,9 +32,6 @@ public class SignInController {
      * all transactions
      */
     private ArrayList<Transaction> transactions;
-    /**
-     * TODO
-     */
     private Stage stage;
     /**
      * important information saved from other sessions

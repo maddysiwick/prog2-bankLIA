@@ -36,9 +36,6 @@ public class MainClientPageController {
      * all transactions
      */
     private ArrayList<Transaction> transactions;
-    /**
-     * TODO
-     */
     private Stage stage;
     /**
      * accounts related to the currently signed in user
